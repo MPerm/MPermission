@@ -32,6 +32,8 @@ MPermission is written in Python 3. It consists of:
 * Ignored permissions configuration file
 * SQLite database to persist analysis results
 
+![Subsystem](/docs/mpermission-subsystem-diagram.png?raw=true "Optional Title")
+
 The tool will have 4 stages of execution:  
 
 1. Decompilation of .apk file 
