@@ -29,7 +29,7 @@ MPermission is a tool that analyzes appropriate usage of permissions in Android 
 MPermission is written in Python 3. It consists of:
 * Stand alone [Android Application Package (.apk file)][2] decompiler
 * Source analysis driver
-* Ignored permissions configuration file
+* Ignored permissions configuration file (including looking for dangerous permissions)
 * SQLite database to persist analysis results
 
 ![Subsystem](/docs/mpermission-subsystem-diagram.png?raw=true "Optional Title")
