@@ -56,7 +56,10 @@ The tool can be run incrementally with the following flags:
 
 ### Project Goals
 
-It's intended that the tool will be available to researchers and developers to highlight any over or underprivilege areas within their apps. 
+It's intended that the tool will be available to researchers and developers to highlight any over or underprivilege areas within their apps. The team is planning on analyzing 10 - 15 custom permissions-heavy apps as well as several apps that already exist in the Play Store.
+
+Currently testing the following Android M apps:
+* Facebook Messenger
 
 License
 ----
