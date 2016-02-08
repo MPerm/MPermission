@@ -23,7 +23,7 @@ System permissions are divided into nine groups:
 Users can grant all permissions within a group by requiring a single action -- which may result in overprivileging. 
 
 ### Objective
-MPermission is a tool that analyzes appropriate usage of permissions in Android M applications. The tool will assign a "Permissions Score" based on what permissions are being used vs. what permissions are being required.  
+MPermission is a tool that analyzes appropriate usage of permissions in Android M applications. The tool will assign a "Permissions Score" based on what permissions are being used vs. what permissions are being required. The tool will also distinguish between system permissions and 3rd party / advertisement permissions. Ads may check if permissions have already been granted, if they have, then use them. Otherwise they silently won’t, that is without a prompt to the user.
 
 ### Implementation
 MPermission is written in Python 3. It consists of:
