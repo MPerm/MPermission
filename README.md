@@ -48,6 +48,7 @@ MPermission uses pre-written decompilation scripts from the kocsenc/android-scra
 
 ```bash
 % git submodule init
+% git submodule update
 ```
 
 For Android decompilation instructions, refer to [the README](4) within the submodule.
