@@ -44,7 +44,13 @@ The tool will have 4 stages of execution:
 The tool can synchrnously execute over several .apks.
 
 ### Usage
-For Android decompilation instructions, refer to [the README](https://github.com/kocsenc/android-scraper/tree/master/tools/apk-decompiler/).
+MPermission uses pre-written decompilation scripts from the kocsenc/android-scraper project. The project is referenced via a [submodule](3). After cloning the project, it can be installed via:
+
+```bash
+% git submodule init
+```
+
+For Android decompilation instructions, refer to [the README](4) within the submodule.
 
 The tool can be run incrementally with the following flags:
 
@@ -67,3 +73,5 @@ BSD
 
 [1]: http://developer.android.com/guide/topics/security/permissions.html#normal-dangerous
 [2]: https://www.wikiwand.com/en/Android_application_package
+[3]: https://git-scm.com/book/en/v2/Git-Tools-Submodules
+[4]: https://github.com/kocsenc/android-scraper/tree/master/tools/apk-decompiler/
