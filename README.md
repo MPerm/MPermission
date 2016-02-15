@@ -56,7 +56,7 @@ For Android decompilation instructions, refer to [the README](4) within the subm
 The tool can be run incrementally with the following flags:
 
 ```bash
-% python3 perm.py project-root --ignore -i ignore.txt  # pass file to ignore permissions during analysis
+% python3 perm.py project-root --config -c config.txt  # pass file to observe / ignore permissions during analysis
 % python3 perm.py project-root --harvest -h            # writes current permissions to permissions-app-name.txt
 % python3 perm.py project-root --save -s               # saves results to SQLite DB
 ```
