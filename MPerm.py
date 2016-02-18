@@ -3,6 +3,7 @@
 __author__ = 'piper'
 
 import sys
+import Harvest
 
 def read_config(config_file):
     """
@@ -25,6 +26,7 @@ def main():
         exit()
     elif len(arguments) > 2:
         read_config(arguments[-1])
+        Harvest.search_project_root(arguments[-2])
 
 
 if __name__ == "__main__":
