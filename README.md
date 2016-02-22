@@ -43,6 +43,11 @@ The tool will have 4 stages of execution:
 
 The tool can synchrnously execute over several .apks.
 
+#### Analysis
+To determine what permisisons are used in the source the tool will search for commonly used functions to acqurie permissions. Some of these include  
+* `requestPermissions()` - requests permissions to be used 
+* `checkSelfPermission()` - determines whether the user has been granted this permission
+
 ### Usage
 MPermission uses pre-written decompilation scripts from the kocsenc/android-scraper project. The project is referenced via a [submodule](3). After cloning the project, it can be installed via:
 
@@ -76,3 +81,4 @@ BSD
 [2]: https://www.wikiwand.com/en/Android_application_package
 [3]: https://git-scm.com/book/en/v2/Git-Tools-Submodules
 [4]: https://github.com/kocsenc/android-scraper/tree/master/tools/apk-decompiler/
+
