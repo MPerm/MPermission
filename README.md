@@ -44,7 +44,7 @@ The tool will have 4 stages of execution:
 The tool can synchrnously execute over several .apks.
 
 #### Analysis
-To determine what permisisons are used in the source the tool will search for commonly used functions to acqurie permissions. Some of these include  
+To determine what permisisons are used in the source the tool will search for commonly used functions to acquire permissions. Some of these include  
 * `requestPermissions()` - requests permissions to be used 
 * `checkSelfPermission()` - determines whether the user has been granted this permission
 
