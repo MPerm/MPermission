@@ -25,11 +25,15 @@ def read_manifest(project_root):
                 if permission not in permissions:
                     permissions.append(permission_line[:permission_line.find('"')])
 
+    # Write add manifest to report
     line_number = 1
-    print('--- Permissions from Manifest --- \n')
-    for permission in permissions:
-        print('{:>4} {}'.format(line_number, permission.rstrip()))
-        line_number += 1
+    with open("report.txt", "w") as report:
+        print('--- Permissions from Manifest ---', file=report)
+        for permission in permissions:
+            print('{:>4} {}'.format(line_number, permission.rstrip()), file=report)
+            line_number += 1
+        print('-' * 20, file=report)
+
 
 def decompile(decomp_path, apk_path, dest_path="./sample_apks/"):
     """
@@ -58,6 +62,8 @@ def main():
     elif len(arguments) >= 3 and len(arguments) < 5:
         source_path = arguments[1]
         read_manifest(source_path)
+        if '-d' in arguments:
+            Harvest.search_project_root(source_path)
 
 
 if __name__ == "__main__":
