@@ -14,14 +14,16 @@ def read_manifest(project_root):
     for file in glob.glob(root_dir + "/**/AndroidManifest.xml", recursive=True):
         manifests.append(file)
 
+    # Collect all permissions from each manifest
     line_number = 1
     with open(manifests[0]) as manifest:
         for line in manifest:
             line_number += 1
             if 'permission' in line:
-                # TODO(piper): allow for permission[s] as well. Not just singular.
                 permission_line = line[(line.find('permission.') + len('permission.')):]
-                permissions.append(permission_line[:permission_line.find('"')])
+                permission = permission_line[:permission_line.find('"')]
+                if permission not in permissions:
+                    permissions.append(permission_line[:permission_line.find('"')])
 
     line_number = 1
     print('--- Permissions from Manifest --- \n')
