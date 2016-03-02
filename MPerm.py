@@ -47,11 +47,11 @@ def decompile(apk_path):
 
 def read_config(config_file):
     """Takes a configuration file to decide which permissions to analyze."""
-    line_number = 1
     with open(config_file) as config:
         for line in config:
-            print('{:>4} {}'.format(line_number, line.rstrip()))
-            line_number += 1
+            ignored.append(line)
+    return ignored
+
 
 def main():
     """Primary driver of MPermission. """

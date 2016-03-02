@@ -21,7 +21,7 @@ class Report:
         line_number = 1
         with open(self.report_file_name, "w+") as report:
             print(" Android Permissions Report ".center(50,'-'),file=report)
-            print("{:>4}".format("Package: " + self.package_name), file=report)
+            print("{}".format("Package: " + self.package_name), file=report)
             print("\n", file=report)
 
             print(" Permissions Origin ".center(50,'-'),file=report)
