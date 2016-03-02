@@ -2,105 +2,80 @@
 Package: com.facebook.lite
 
 
---------------- Permissions Origin ---------------
+------------ Third Party Permissions -------------
+com.facebook.receiver.permission.ACCESS
+com.google.android.c2dm.permission.RECEIVE
+com.facebook.lite.permission.C2D_MESSAGE
+com.sec.android.provider.badge.permission.WRITE
+com.android.launcher.permission.UNINSTALL_SHORTCUT
+com.android.launcher.permission.INSTALL_SHORTCUT
+com.facebook.permission.prod.FB_APP_COMMUNICATION
+com.facebook.orca.provider.ACCESS
 
 
 ----- System Permission Groups from Manifest -----
-Phone Group:
-   1 READ_PHONE_STATE
+Sms Group:
+   1 READ_SMS
 
 
 Microphone Group:
-
-
-Storage Group:
-   2 WRITE_EXTERNAL_STORAGE
-
-
-Calendar Group:
-
-
-Sms Group:
-   3 SEND_SMS
-   4 RECEIVE_SMS
-
-
-Contacts Group:
-   5 GET_ACCOUNTS
-   6 READ_CONTACTS
-
-
-Location Group:
-   7 ACCESS_FINE_LOCATION
-
-
-Camera Group:
+   2 RECORD_AUDIO
 
 
 Sensors Group:
 
 
+Storage Group:
+   3 WRITE_EXTERNAL_STORAGE
+
+
+Contacts Group:
+   4 GET_ACCOUNTS
+   5 READ_CONTACTS
+   6 WRITE_CONTACTS
+
+
+Calendar Group:
+   7 READ_CALENDAR
+   8 WRITE_CALENDAR
+
+
+Camera Group:
+   9 CAMERA
+
+
+Phone Group:
+  10 CALL_PHONE
+  11 READ_PHONE_STATE
+
+
+Location Group:
+  12 ACCESS_COARSE_LOCATION
+
+
 ---- Non-Dangerous Permissions from Manifest -----
-   1 sample_apks/com.android.vending_6.2.10.A-all_[0]_2590673-80621000_minAPI9(nodpi).apk.uncompressed/app/AndroidManifest.xml
-   2 sample_apks/com.android.vending_6.2.10.A-all_[0]_2590673-80621000_minAPI9(nodpi).apk.uncompressed/raw/AndroidManifest.xml
-   3 sample_apks/com.facebook.lite/app/AndroidManifest.xml
-   4 sample_apks/com.facebook.lite/app/original/AndroidManifest.xml
-   5 ssion android:label=
-   6 C2D_MESSAGE
-   7 ssion android:name=
-   8 GEARHEAD_SERVICE
-   9 RECEIVE
-  10 GET_TASKS
-  11 REAL_GET_TASKS
-  12 INTERNET
-  13 READ_EXTERNAL_STORAGE
-  14 CLEAR_APP_CACHE
-  15 CHANGE_COMPONENT_ENABLED_STATE
-  16 ACCESS_NETWORK_STATE
-  17 CHANGE_NETWORK_STATE
-  18 READ_GSERVICES
-  19 WRITE_GSERVICES
-  20 ACCESS_DOWNLOAD_MANAGER
-  21 ACCESS_DOWNLOAD_MANAGER_ADVANCED
-  22 SEND_DOWNLOAD_COMPLETED_INTENTS
-  23 INSTALL_PACKAGES
-  24 DELETE_PACKAGES
-  25 NFC
-  26 permission android:name=
-  27 RECEIVE_BOOT_COMPLETED
-  28 SEND_SMS_NO_CONFIRMATION
-  29 INSTALL_SHORTCUT
-  30 STATUS_BAR
-  31 WAKE_LOCK
-  32 ACCESS_COARSE_LOCATION
-  33 ACCESS_WIFI_STATE
-  34 USE_FINGERPRINT
-  35 GET_PACKAGE_IMPORTANCE
-  36 MANAGE_ACCOUNTS
-  37 AUTHENTICATE_ACCOUNTS
-  38 USE_CREDENTIALS
-  39 GET_ACCOUNTS_PRIVILEGED
-  40 INSTALL_GRANT_RUNTIME_PERMISSIONS
-  41 GRANT_RUNTIME_PERMISSIONS
-  42 REVOKE_RUNTIME_PERMISSIONS
-  43 PACKAGE_USAGE_STATS
-  44 CHANGE_DEVICE_IDLE_TEMP_WHITELIST
-  45 BATTERY_STATS
-  46 PACKAGE_VERIFICATION_AGENT
-  47 MANAGE_USERS
-  48 INTERACT_ACROSS_USERS
-  49 WRITE_SETTINGS
-  50 WRITE_SECURE_SETTINGS
-  51 FORCE_STOP_PACKAGES
-  52 CAR
-  53 AD_ID_NOTIFICATION
-  54 GET_PACKAGE_SIZE
-  55 READ_SMS
-  56 ctivity android:label=
-  57 ctivity android:theme=
-  58 SEND
-  59 eceiver android:name=
-  60 ervice android:name=
-  61 BIND_REMOTEVIEWS
-  62 BIND_PACKAGE_VERIFIER
-  63 BIND_JOB_SERVICE
+   1 sample_apks/com.facebook.lite/app/AndroidManifest.xml
+   2 sample_apks/com.facebook.lite/app/original/AndroidManifest.xml
+   3 C2D_MESSAGE
+   4 ACCESS
+   5 prod.FB_APP_COMMUNICATION
+   6 ACCESS_FINE_LOCATION
+   7 ACCESS_NETWORK_STATE
+   8 ACCESS_WIFI_STATE
+   9 BATTERY_STATS
+  10 BROADCAST_STICKY
+  11 CHANGE_NETWORK_STATE
+  12 CHANGE_WIFI_STATE
+  13 GET_TASKS
+  14 INTERNET
+  15 READ_PROFILE
+  16 RECEIVE_BOOT_COMPLETED
+  17 SYSTEM_ALERT_WINDOW
+  18 VIBRATE
+  19 WAKE_LOCK
+  20 INSTALL_SHORTCUT
+  21 UNINSTALL_SHORTCUT
+  22 RECEIVE
+  23 WRITE
+  24 permission android:name=
+  25 SEND

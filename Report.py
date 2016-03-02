@@ -4,12 +4,11 @@ from Permissions import Permissions
 class Report:
     """Report object to be printed."""
 
-    def __init__(self, report_file_name, permissions, source_files, package_name):
+    def __init__(self, report_file_name, package_name, permissions, third_party_permissions):
         self.report_file_name = report_file_name
-        self.code = []
-        self.source_files = source_files
-        self.permissions = permissions
         self.package_name = package_name
+        self.permissions = permissions
+        self.third_party_permissions = third_party_permissions
 
     def print_permissions_origin(self):
         """Prints where the permission requests come from (app, libs, etc)."""
@@ -24,18 +23,15 @@ class Report:
             print("{}".format("Package: " + self.package_name), file=report)
             print("\n", file=report)
 
-            print(" Permissions Origin ".center(50,'-'),file=report)
-            print("\n", file=report)
-            # [print(line,file=report) for line in self.source_files]
+            print(" Third Party Permissions ".center(50,'-'),file=report)
+            [print(permission, file=report) for permission in self.third_party_permissions]
 
-            # TODO: distinguish between where permissions came from
-            # Distinguish between System and 3rd party
-            system_permissions = Permissions()
-            perms = system_permissions.get_permissions()
-            non_system_permissions = []
+            print("\n", file=report)
+            permission = Permissions()
+            system_permissions = permission.get_permissions()
 
             print(" System Permission Groups from Manifest ".center(50,'-'),file=report)
-            for permission_group, permission_list in perms.items():
+            for permission_group, permission_list in system_permissions.items():
                 # Bucket system permission to appropriate permission_group
                 print(permission_group.capitalize() + " Group:", file=report)
                 for new_permission in self.permissions:

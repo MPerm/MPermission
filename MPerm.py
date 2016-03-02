@@ -17,18 +17,30 @@ def get_package_name(project_root):
     root = tree.getroot()
     return root.attrib['package']
 
+def get_third_party_permissions(project_root):
+    """Analyze manifest to see what permissions to request."""
+    manifest = glob.glob(project_root + "/**/AndroidManifest.xml", recursive=True)
+    tree = ET.parse(manifest[0])
+    root = tree.getroot()
+    values = []
+    third_party = set()
+    for neighbor in root.iter('uses-permission'):
+        values.append(list(neighbor.attrib.values()))
+    for val in values:
+        for perm in val:
+            if 'com' in perm:
+                third_party.add(perm)
+    return third_party
+
 def read_manifest(project_root):
     """Analyze manifest to see what permissions to request."""
-    root_dir = project_root[:project_root.find('/') + 1]
     manifests = permissions = []
-    for file in glob.glob(root_dir + "/**/AndroidManifest.xml", recursive=True):
+    for file in glob.glob(project_root + "/**/AndroidManifest.xml", recursive=True):
         manifests.append(file)
 
     # Collect all permissions from each manifest
-    line_number = 1
     with open(manifests[0]) as manifest:
         for line in manifest:
-            line_number += 1
             if 'permission' in line:
                 permission_line = line[(line.find('permission.') + len('permission.')):]
                 permission = permission_line[:permission_line.find('"')]
@@ -65,11 +77,11 @@ def main():
         if '-h' in arguments:
             package_name = get_package_name(source_path)
             permissions = read_manifest(source_path)
+            third_party_permissions = get_third_party_permissions(source_path)
             file_name = "report_" + package_name + ".txt"
             # harvest = Harvest(source_path, permissions)
             # source_files = harvest.search_project_root()
-            source_files = []
-            report = Report("reports/" + file_name, permissions, source_files, package_name)
+            report = Report("reports/" + file_name, package_name, permissions, third_party_permissions)
             report.print_report()
         elif '-d' in arguments:
             decompile(source_path)

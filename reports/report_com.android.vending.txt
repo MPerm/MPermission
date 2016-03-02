@@ -1,0 +1,115 @@
+----------- Android Permissions Report -----------
+Package: com.android.vending
+
+
+------------ Third Party Permissions -------------
+com.google.android.c2dm.permission.RECEIVE
+com.google.android.gms.permission.AD_ID_NOTIFICATION
+com.android.vending.billing.IN_APP_NOTIFY.permission.C2D_MESSAGE
+com.android.vending.INTENT_VENDING_ONLY
+com.google.android.gms.permission.CAR
+com.google.android.providers.gsf.permission.WRITE_GSERVICES
+com.android.vending.TOS_ACKED
+com.google.android.gms.WRITE_VERIFY_APPS_CONSENT
+com.google.android.providers.gsf.permission.READ_GSERVICES
+com.android.launcher.permission.INSTALL_SHORTCUT
+com.android.vending.permission.C2D_MESSAGE
+
+
+----- System Permission Groups from Manifest -----
+Contacts Group:
+   1 GET_ACCOUNTS
+   2 READ_CONTACTS
+
+
+Storage Group:
+   3 WRITE_EXTERNAL_STORAGE
+
+
+Sensors Group:
+
+
+Sms Group:
+   4 SEND_SMS
+   5 RECEIVE_SMS
+
+
+Microphone Group:
+
+
+Camera Group:
+
+
+Location Group:
+   6 ACCESS_FINE_LOCATION
+
+
+Calendar Group:
+
+
+Phone Group:
+   7 READ_PHONE_STATE
+
+
+---- Non-Dangerous Permissions from Manifest -----
+   1 sample_apks/com.android.vending/app/AndroidManifest.xml
+   2 sample_apks/com.android.vending/raw/AndroidManifest.xml
+   3 ssion android:label=
+   4 C2D_MESSAGE
+   5 ssion android:name=
+   6 GEARHEAD_SERVICE
+   7 RECEIVE
+   8 GET_TASKS
+   9 REAL_GET_TASKS
+  10 INTERNET
+  11 READ_EXTERNAL_STORAGE
+  12 CLEAR_APP_CACHE
+  13 CHANGE_COMPONENT_ENABLED_STATE
+  14 ACCESS_NETWORK_STATE
+  15 CHANGE_NETWORK_STATE
+  16 READ_GSERVICES
+  17 WRITE_GSERVICES
+  18 ACCESS_DOWNLOAD_MANAGER
+  19 ACCESS_DOWNLOAD_MANAGER_ADVANCED
+  20 SEND_DOWNLOAD_COMPLETED_INTENTS
+  21 INSTALL_PACKAGES
+  22 DELETE_PACKAGES
+  23 NFC
+  24 permission android:name=
+  25 RECEIVE_BOOT_COMPLETED
+  26 SEND_SMS_NO_CONFIRMATION
+  27 INSTALL_SHORTCUT
+  28 STATUS_BAR
+  29 WAKE_LOCK
+  30 ACCESS_COARSE_LOCATION
+  31 ACCESS_WIFI_STATE
+  32 USE_FINGERPRINT
+  33 GET_PACKAGE_IMPORTANCE
+  34 MANAGE_ACCOUNTS
+  35 AUTHENTICATE_ACCOUNTS
+  36 USE_CREDENTIALS
+  37 GET_ACCOUNTS_PRIVILEGED
+  38 INSTALL_GRANT_RUNTIME_PERMISSIONS
+  39 GRANT_RUNTIME_PERMISSIONS
+  40 REVOKE_RUNTIME_PERMISSIONS
+  41 PACKAGE_USAGE_STATS
+  42 CHANGE_DEVICE_IDLE_TEMP_WHITELIST
+  43 BATTERY_STATS
+  44 PACKAGE_VERIFICATION_AGENT
+  45 MANAGE_USERS
+  46 INTERACT_ACROSS_USERS
+  47 WRITE_SETTINGS
+  48 WRITE_SECURE_SETTINGS
+  49 FORCE_STOP_PACKAGES
+  50 CAR
+  51 AD_ID_NOTIFICATION
+  52 GET_PACKAGE_SIZE
+  53 READ_SMS
+  54 ctivity android:label=
+  55 ctivity android:theme=
+  56 SEND
+  57 eceiver android:name=
+  58 ervice android:name=
+  59 BIND_REMOTEVIEWS
+  60 BIND_PACKAGE_VERIFIER
+  61 BIND_JOB_SERVICE
