@@ -12,8 +12,7 @@ from Report import Report
 
 def get_package_name(project_root):
     """Analyze manifest to see package name of app."""
-    root_dir = project_root[:project_root.find('/') + 1]
-    manifest = glob.glob(root_dir + "/**/AndroidManifest.xml", recursive=True)
+    manifest = glob.glob(project_root + "/**/AndroidManifest.xml", recursive=True)
     tree = ET.parse(manifest[0])
     root = tree.getroot()
     return root.attrib['package']
@@ -66,10 +65,11 @@ def main():
         if '-h' in arguments:
             package_name = get_package_name(source_path)
             permissions = read_manifest(source_path)
+            file_name = "report_" + package_name + ".txt"
             # harvest = Harvest(source_path, permissions)
             # source_files = harvest.search_project_root()
             source_files = []
-            report = Report("report.txt", permissions, source_files, package_name)
+            report = Report("reports/" + file_name, permissions, source_files, package_name)
             report.print_report()
         elif '-d' in arguments:
             decompile(source_path)
