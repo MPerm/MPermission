@@ -4,22 +4,24 @@ from Permissions import Permissions
 class Report:
     """Report object to be printed."""
 
-    def __init__(self, report_file_name, permissions, source_files):
+    def __init__(self, report_file_name, permissions, source_files, package_name):
         self.report_file_name = report_file_name
         self.code = []
         self.source_files = source_files
         self.permissions = permissions
+        self.package_name = package_name
 
     def print_permissions_origin(self):
         """Prints where the permission requests come from (app, libs, etc)."""
         with open(self.report_file_name, "w") as report:
-            print("test")
+            print('test')
 
     def print_report(self):
         """Prints permissions analysis report to report_name."""
         line_number = 1
         with open(self.report_file_name, "w+") as report:
             print(" Android Permissions Report ".center(50,'-'),file=report)
+            print("{:>4}".format("Package: " + self.package_name), file=report)
             print("\n", file=report)
 
             print(" Permissions Origin ".center(50,'-'),file=report)

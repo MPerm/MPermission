@@ -4,10 +4,19 @@ __author__ = 'piper'
 import glob
 import sys
 import subprocess
+import xml.etree.ElementTree as ET
 
 from Harvest import Harvest
 from Permissions import Permissions
 from Report import Report
+
+def get_package_name(project_root):
+    """Analyze manifest to see package name of app."""
+    root_dir = project_root[:project_root.find('/') + 1]
+    manifest = glob.glob(root_dir + "/**/AndroidManifest.xml", recursive=True)
+    tree = ET.parse(manifest[0])
+    root = tree.getroot()
+    return root.attrib['package']
 
 def read_manifest(project_root):
     """Analyze manifest to see what permissions to request."""
@@ -55,10 +64,12 @@ def main():
     elif len(arguments) >= 3 and len(arguments) < 5:
         source_path = arguments[1]
         if '-h' in arguments:
+            package_name = get_package_name(source_path)
             permissions = read_manifest(source_path)
-            harvest = Harvest(source_path, permissions)
-            source_files = harvest.search_project_root()
-            report = Report("report.txt", permissions, source_files)
+            # harvest = Harvest(source_path, permissions)
+            # source_files = harvest.search_project_root()
+            source_files = []
+            report = Report("report.txt", permissions, source_files, package_name)
             report.print_report()
         elif '-d' in arguments:
             decompile(source_path)
