@@ -79,8 +79,8 @@ def main():
             permissions = read_manifest(source_path)
             third_party_permissions = get_third_party_permissions(source_path)
             file_name = "report_" + package_name + ".txt"
-            # harvest = Harvest(source_path, permissions)
-            # source_files = harvest.search_project_root()
+            harvest = Harvest(source_path, package_name, permissions)
+            source_files = harvest.search_project_root()
             report = Report("reports/" + file_name, package_name, permissions, third_party_permissions)
             report.print_report()
         elif '-d' in arguments:
