@@ -40,7 +40,7 @@ class Harvest:
             print("{}".format("Package: " + self.package_name), file=report)
             print("\n", file=report)
 
-            print(" Files Analyzed ".center(50,'-'),file=report)
+            print(" Permissions Found in Files ".center(50,'-'),file=report)
             [print(line,file=report) for line in self.source_files]
             print("\n", file=report)
 

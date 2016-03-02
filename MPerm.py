@@ -75,6 +75,7 @@ def main():
     elif len(arguments) >= 3 and len(arguments) < 5:
         source_path = arguments[1]
         if '-h' in arguments:
+            print("Starting analyzing...")
             package_name = get_package_name(source_path)
             permissions = read_manifest(source_path)
             third_party_permissions = get_third_party_permissions(source_path)
@@ -85,6 +86,7 @@ def main():
             report.print_report()
         elif '-d' in arguments:
             decompile(source_path)
+            print("Decompilation finished!")
 
 if __name__ == "__main__":
     main()

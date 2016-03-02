@@ -46,3 +46,4 @@ class Report:
             for non_system_permission in self.permissions:
                 print('{:>4} {}'.format(line_number, non_system_permission), file=report)
                 line_number += 1
+        print("Report printed! Location: " + self.report_file_name)
