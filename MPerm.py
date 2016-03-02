@@ -29,14 +29,13 @@ def read_manifest(project_root):
     return permissions
 
 
-def decompile(decomp_path, apk_path, dest_path="./sample_apks/"):
+def decompile(apk_path):
     """
     Only decompile the provided APK. The decompiled APK will be
     left within the same directory.
     """
-    subprocess.call(["./" + decomp_path, apk_path])
-    subprocess.call(["mv", "android-scraper/tools/apk-decompiler/uncompressed", dest_path])
-
+    subprocess.call(["./android-scraper/tools/apk-decompiler/apk_decompiler.sh", apk_path])
+    # subprocess.call(["mv", "android-scraper/tools/apk-decompiler/com.*", "sample_apks/"], shell=True)
 
 def read_config(config_file):
     """Takes a configuration file to decide which permissions to analyze."""
@@ -55,12 +54,14 @@ def main():
         exit(1)
     elif len(arguments) >= 3 and len(arguments) < 5:
         source_path = arguments[1]
-        permissions = read_manifest(source_path)
         if '-h' in arguments:
+            permissions = read_manifest(source_path)
             harvest = Harvest(source_path, permissions)
             source_files = harvest.search_project_root()
             report = Report("report.txt", permissions, source_files)
             report.print_report()
+        elif '-d' in arguments:
+            decompile(source_path)
 
 if __name__ == "__main__":
     main()
