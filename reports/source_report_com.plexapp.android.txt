@@ -1,0 +1,107 @@
+----------------- Source Report ------------------
+Package: com.plexapp.android
+
+
+----------------- Files Analyzed -----------------
+sample_apks/com.plexapp.android/app/src/android/support/v17/leanback/widget/SearchBar.java
+sample_apks/com.plexapp.android/app/src/android/support/v4/content/a.java
+sample_apks/com.plexapp.android/app/src/android/support/v4/content/FileProvider.java
+sample_apks/com.plexapp.android/app/src/com/amazon/android/webkit/AmazonPluginManager.java
+sample_apks/com.plexapp.android/app/src/com/connectsdk/service/WebOSTVService.java
+sample_apks/com.plexapp.android/app/src/com/connectsdk/service/webos/WebOSTVServiceSocketClient.java
+sample_apks/com.plexapp.android/app/src/com/e/b/l.java
+sample_apks/com.plexapp.android/app/src/com/google/android/a/c.java
+sample_apks/com.plexapp.android/app/src/com/plexapp/plex/application/f/a.java
+sample_apks/com.plexapp.android/app/src/com/plexapp/plex/application/f/d.java
+sample_apks/com.plexapp.android/app/src/com/plexapp/plex/services/CameraUploadService.java
+sample_apks/com.plexapp.android/app/src/net/hockeyapp/android/m.java
+sample_apks/com.plexapp.android/app/src/net/hockeyapp/android/o.java
+sample_apks/com.plexapp.android/app/src/net/hockeyapp/android/UpdateActivity.java
+
+
+------------- Occurrences in Source --------------
+
+File:  sample_apks/com.plexapp.android/app/src/android/support/v17/leanback/widget/SearchBar.java
+
+ 183         if (this.getContext().checkCallingOrSelfPermission("android.permission.RECORD_AUDIO") != 0) {
+ 184             throw new IllegalStateException("android.permission.RECORD_AUDIO required for search");
+ 295                                 Log.w(SearchBar.a, "recognizer insufficient permissions");
+
+File:  sample_apks/com.plexapp.android/app/src/android/support/v4/content/a.java
+
+  11             throw new IllegalArgumentException("permission is null");
+
+File:  sample_apks/com.plexapp.android/app/src/android/support/v4/content/FileProvider.java
+
+ 150             throw new SecurityException("Provider must grant uri permissions");
+
+File:  sample_apks/com.plexapp.android/app/src/com/amazon/android/webkit/AmazonPluginManager.java
+
+   5     public static final String PLUGIN_PERMISSION = "android.webkit.permission.PLUGIN";
+
+File:  sample_apks/com.plexapp.android/app/src/com/connectsdk/service/WebOSTVService.java
+
+  48     List<String> permissions;
+1462         if (this.permissions != null) {
+1463             return this.permissions;
+1465         final ArrayList<Object> permissions = new ArrayList<Object>();
+1466         Collections.addAll(permissions, WebOSTVService.kWebOSTVServiceOpenPermissions);
+1468             Collections.addAll(permissions, WebOSTVService.kWebOSTVServiceProtectedPermissions);
+1469             Collections.addAll(permissions, WebOSTVService.kWebOSTVServicePersonalActivityPermissions);
+1471         return this.permissions = (List<String>)permissions;
+2449     public void setPermissions(final List<String> permissions) {
+2450         this.permissions = permissions;
+
+File:  sample_apks/com.plexapp.android/app/src/com/connectsdk/service/webos/WebOSTVServiceSocketClient.java
+
+ 357         final List<String> permissions = this.mService.getPermissions();
+ 360             this.manifest.put("permissions", (Object)this.convertStringListToJSONArray(permissions));
+
+File:  sample_apks/com.plexapp.android/app/src/com/e/b/l.java
+
+  45         this.o = bc.b(b, "android.permission.ACCESS_NETWORK_STATE");
+
+File:  sample_apks/com.plexapp.android/app/src/com/google/android/a/c.java
+
+  95                 final String string = packageName + ".permission.C2D_MESSAGE";
+
+File:  sample_apks/com.plexapp.android/app/src/com/plexapp/plex/application/f/a.java
+
+   5     a(1, "android.permission.GET_ACCOUNTS"),
+   6     b(2, "android.permission.WRITE_EXTERNAL_STORAGE");
+
+File:  sample_apks/com.plexapp.android/app/src/com/plexapp/plex/application/f/d.java
+
+  76             PlexApplication.k().putBoolean("permission_denied_forever_" + array[0], true).commit();
+  83         ay.a("[PermissionController] Requesting %s permission", a.b());
+  89         ay.a("[PermissionController] Checking %s permission", a.b());
+  95             ay.b("[PermissionController] %s permission has been granted.", a.b());
+ 106             ay.b("[PermissionController] Educating user about permission %s.", a.b());
+ 110         ay.b("[PermissionController] Requesting permission %s.", a.b());
+ 115         return PlexApplication.b("permission_denied_forever_" + a.b());
+
+File:  sample_apks/com.plexapp.android/app/src/com/plexapp/plex/services/CameraUploadService.java
+
+  26                 ay.b("[CameraUploadService] Feature is currently off because the external storage access permission has been denied", new Object[0]);
+
+File:  sample_apks/com.plexapp.android/app/src/net/hockeyapp/android/m.java
+
+  62     public static final int hockeyapp_permission_dialog_negative_button = 2131428186;
+  63     public static final int hockeyapp_permission_dialog_positive_button = 2131428187;
+  64     public static final int hockeyapp_permission_update_message = 2131428188;
+  65     public static final int hockeyapp_permission_update_title = 2131428189;
+
+File:  sample_apks/com.plexapp.android/app/src/net/hockeyapp/android/o.java
+
+  53         if (Build$VERSION.SDK_INT >= 23 && this.getActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0) {
+  54             this.requestPermissions(new String[] { "android.permission.WRITE_EXTERNAL_STORAGE" }, 1);
+ 133         Log.w("HockeyApp", "User denied write permission, can't continue with updater task.");
+ 139         new AlertDialog$Builder((Context)this.getActivity()).setTitle((CharSequence)this.getString(m.hockeyapp_permission_update_title)).setMessage((CharSequence)this.getString(m.hockeyapp_permission_update_message)).setNegativeButton((CharSequence)this.getString(m.hockeyapp_permission_dialog_negative_button), (DialogInterface$OnClickListener)null).setPositiveButton((CharSequence)this.getString(m.hockeyapp_permission_dialog_positive_button), (DialogInterface$OnClickListener)new DialogInterface$OnClickListener() {
+
+File:  sample_apks/com.plexapp.android/app/src/net/hockeyapp/android/UpdateActivity.java
+
+  26         return context.checkCallingOrSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == 0;
+ 147                 this.requestPermissions(new String[] { "android.permission.WRITE_EXTERNAL_STORAGE" }, 1);
+ 150             (this.c = new c()).a("The permission to access the external storage permission is not set. Please contact the developer.");
+ 234         Log.w("HockeyApp", "User denied write permission, can't continue with updater task.");
+ 240         new AlertDialog$Builder(this.d).setTitle((CharSequence)this.getString(m.hockeyapp_permission_update_title)).setMessage((CharSequence)this.getString(m.hockeyapp_permission_update_message)).setNegativeButton((CharSequence)this.getString(m.hockeyapp_permission_dialog_negative_button), (DialogInterface$OnClickListener)null).setPositiveButton((CharSequence)this.getString(m.hockeyapp_permission_dialog_positive_button), (DialogInterface$OnClickListener)new DialogInterface$OnClickListener() {
