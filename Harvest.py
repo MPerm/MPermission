@@ -27,7 +27,6 @@ class Harvest:
                 for line in java_file:
                     line_number += 1
                     if search_string in line:
-                        # TODO: print filename as wel
                         if current_file is not java_file.name:
                             current_file = java_file.name
                             self.lines.append(('{} {:>4}\n'.format("\nFile: ", current_file)))
