@@ -64,6 +64,8 @@ To determine what permisisons are used in the source the tool will search for co
 * `checkSelfPermission()` - determines whether the user has been granted this permission
 
 ### Usage
+MPermission requires Python 3.0 - 3.4. 
+
 MPermission uses pre-written decompilation scripts from the kocsenc/android-scraper project. The project is referenced via a [submodule](3). After cloning the project, it can be installed via:
 
 ```bash
