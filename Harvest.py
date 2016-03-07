@@ -1,11 +1,11 @@
-
-import glob
+import fnmatch
 import os
-import Report
 
 from Report import Report
 
 class Harvest:
+    """Harvest object that scrapes project source looking for permissions matches."""
+
     def __init__(self, project_root, package_name, permissions):
         """Init method of Harvest."""
         self.project_root = project_root
@@ -20,7 +20,12 @@ class Harvest:
         print("Harvesting from project root....")
         search_string = "permission"
         source_root = self.project_root + "/app/src/"
-        for file in glob.iglob(source_root + "**/*.java", recursive=True):
+        matches = []
+        # Search for matching java files
+        for root, dirnames, filenames in os.walk(source_root):
+            for filename in fnmatch.filter(filenames, "*.java"):
+                matches.append(os.path.join(root, filename))
+        for file in matches:
             line_number = 0
             current_file = ""
             with open(file) as java_file:
@@ -34,6 +39,7 @@ class Harvest:
                         self.lines.append(('{:>4} {}'.format(line_number, line.rstrip())))
         print("Harvesting finished!")
 
+        # Print the source report
         with open(self.report_file_name, "w+") as report:
             print(" Source Report ".center(50,'-'),file=report)
             print("{}".format("Package: " + self.package_name), file=report)
