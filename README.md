@@ -8,17 +8,32 @@ This can result in an increase in susceptibility to over and underprivileging fo
 
 System permissions are divided into nine groups:
 
-| Permission   | Description                        |
-|--------------|------------------------------------|
-| Calendar     | Managing calendars                 |
-| Camera       | Taking photos and recording videos |
-| Contacts     | Managing contacts                  |
-| Location     | Current device location            |
-| Microphone   | Audio recording                    |
-| Phone        | Dialing and managing phone calls   |
-| Body Sensors | Heart rate and similar data        |
-| SMS          | Sending and viewing messages       |
-| Storage      | Accessing photos, media, and files |
+| Permission Group   | Description                        | Permissions    | 
+|--------------------|------------------------------------|----------------|  
+| Calendar           | Managing calendars                 | READ_CALENDAR  |
+|                    |                                    | WRITE_CALENDAR |
+| Camera             | Taking photos and recording videos | CAMERA         |
+| Contacts           | Managing contacts                  | READ_CONTACTS  |
+|                    |                                    | WRITE_CONTACTS |
+|                    |                                    | GET_ACCOUNTS   |
+| Location           | Current device location            | ACCESS_FINE_LOCATION               |
+|                    |                                    | ACCESS_COARSE_LOCATION               |
+| Microphone         | Audio recording                    | RECORD_AUDIO               |
+| Phone              | Dialing and managing phone calls   | READ_PHONE_STATE            |
+|                    |                                    | CALL_PHONE               |
+|                    |                                    | READ_CALL_LOG               |
+|                    |                                    | WRITE_CALL_LOG               |
+|                    |                                    | ADD_VOICEMAIL               |
+|                    |                                    | USE_SIP               |
+|                    |                                    | PROCESS_OUTGOING_CALLS               |
+| Sensors            | Heart rate and similar data        | BODY_SENSORS            |
+| SMS                | Sending and viewing messages       | SEND_SMS               |
+|                    |                                    | RECEIVE_SMS               |
+|                    |                                    | READ_SMS               |
+|                    |                                    | RECEIVE_WAP_PUSH               |
+|                    |                                    | RECEIVE_MMS               |
+| Storage            | Accessing photos, media, and files | READ_EXTERNAL_STORAGE               |
+|                    |                                    | WRITE_EXTERNAL_STORAGE               |
 
 Users can grant all permissions within a group by requiring a single action -- which may result in overprivileging. 
 
@@ -49,6 +64,8 @@ To determine what permisisons are used in the source the tool will search for co
 * `checkSelfPermission()` - determines whether the user has been granted this permission
 
 ### Usage
+MPermission requires Python 3.0 - 3.4. 
+
 MPermission uses pre-written decompilation scripts from the kocsenc/android-scraper project. The project is referenced via a [submodule](3). After cloning the project, it can be installed via:
 
 ```bash
