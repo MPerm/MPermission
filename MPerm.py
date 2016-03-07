@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 __author__ = 'piper'
 
-import glob
 import sys
 import subprocess
 import xml.etree.ElementTree as ET
