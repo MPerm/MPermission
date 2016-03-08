@@ -86,7 +86,7 @@ def main():
             source_report = harvest.search_project_root()
 
             # Print report
-            report = Report("reports/" + report_filename, package_name, permissions, third_party_permissions)
+            report = Report(package_name, permissions, third_party_permissions)
             report.print_report()
 
             # Run analysis
