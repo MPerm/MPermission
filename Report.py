@@ -29,10 +29,9 @@ class Report:
             [print(permission, file=report) for permission in self.third_party_permissions]
             print("\n", file=report)
 
-            print(" System Permission Groups from Manifest ".center(50,'-'),file=report)
+            print(" Dangerous Permission Groups from Manifest ".center(50,'-'),file=report)
             permission = Permissions()
-            system_permissions = permission.get_permissions()
-            for permission_group, permission_list in system_permissions.items():
+            for permission_group, permission_list in permission.dangerous_permissions.items():
                 # Bucket system permission to appropriate permission_group
                 print(permission_group.capitalize() + " Group:", file=report)
                 for permission in self.permissions:
@@ -42,3 +41,27 @@ class Report:
                 print('\n', file=report)
 
         print("Report printed! Location: " + self.report_file_name)
+
+    def print_analysis(self, requested_permissions, source_file):
+        """Diffs the requested permissions against occurrences in source."""
+
+        permission = Permissions()
+
+        permissions = set()
+        for perm in requested_permissions:
+            permissions.add(perm.rsplit('.', 1)[-1])
+
+        # TODO: check to see if unused permissions / weren't requested in manifest
+        # p = permission.get_dangerous_permission_group(permissions)
+
+        with open(source_file) as source:
+            for line in source:
+                if "android.permission." in line:
+                    for normal in permission.normal_permissions:
+                        if normal in line:
+                            print("normal" + line)
+
+                    for dangerous in permission.dangerous_permissions.values():
+                        for perm in dangerous:
+                            if perm in line:
+                                print("dangerous: " + line)

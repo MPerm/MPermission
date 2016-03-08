@@ -52,3 +52,4 @@ class Harvest:
             print(" Occurrences in Source ".center(50,'-'),file=report)
             [print(line,file=report) for line in self.lines]
         print("Source report printed! Location: " + self.report_file_name)
+        return self.report_file_name
