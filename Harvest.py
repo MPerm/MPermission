@@ -26,29 +26,28 @@ class Harvest:
             for filename in fnmatch.filter(filenames, "*.java"):
                 matches.append(os.path.join(root, filename))
         for file in matches:
-            line_number = 0
             current_file = ""
             with open(file) as java_file:
-                for line in java_file:
-                    line_number += 1
+                for index, line in enumerate(java_file):
                     if search_string in line:
                         if current_file is not java_file.name:
                             current_file = java_file.name
                             self.lines.append(('{} {:>4}\n'.format("\nFile: ", current_file)))
                             self.source_files.append(current_file)
-                        self.lines.append(('{:>4} {}'.format(line_number, line.rstrip())))
+                        self.lines.append(('{:>4} {}'.format(index, line.rstrip())))
         print("Harvesting finished!")
 
         # Print the source report
         with open(self.report_file_name, "w+") as report:
             print(" Source Report ".center(50,'-'),file=report)
             print("{}".format("Package: " + self.package_name), file=report)
-            print("\n", file=report)
+            print(file=report)
 
-            print(" Permissions Found in Files ".center(50,'-'),file=report)
+            print(" Permissions Found in Files ".center(50, '-'), file=report)
             [print(line,file=report) for line in self.source_files]
-            print("\n", file=report)
+            print(file=report)
 
-            print(" Occurrences in Source ".center(50,'-'),file=report)
-            [print(line,file=report) for line in self.lines]
+            print(" Occurrences in Source ".center(50, '-'), file=report)
+            [print(line, file=report) for line in self.lines]
         print("Source report printed! Location: " + self.report_file_name)
+        return self.report_file_name

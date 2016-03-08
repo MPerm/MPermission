@@ -78,16 +78,20 @@ def main():
             permissions = get_all_permissions(manifest_tree)
             third_party_permissions = get_third_party_permissions(manifest_tree)
 
-            # Create the proper file_name
-            file_name = "report_" + package_name + ".txt"
+            # Create the proper report_filename
+            report_filename = "report_" + package_name + ".txt"
 
             # Scrape the source
             harvest = Harvest(source_path, package_name, permissions)
-            source_files = harvest.search_project_root()
+            source_report = harvest.search_project_root()
 
             # Print report
-            report = Report("reports/" + file_name, package_name, permissions, third_party_permissions)
+            report = Report("reports/" + report_filename, package_name, permissions, third_party_permissions)
             report.print_report()
+
+            # Run analysis
+            report.print_analysis(permissions, source_report)
+
         elif '-d' in arguments:
             decompile(source_path)
 
