@@ -55,9 +55,12 @@ class Report:
             for requested in requested_perm_group:
                 requested_permissions.add(requested)
 
+        over_requested = requested_permissions_dict.copy()
+
         normal_permissions = set()
         dangerous_permissions = set()
-        potentially_not_requested_lines = set()
+        not_requested_source_lines = set()
+        groups_to_remove = set()
 
         # Reading source report for findings.
         with open(source_file) as source:
@@ -77,12 +80,29 @@ class Report:
 
                                 # Possible not requested in Manifest
                                 if dangerous not in requested_permissions:
-                                    potentially_not_requested_lines.add(line)
+                                    not_requested_source_lines.add(line)
+                                else:
+                                    # Check for the group
+                                    for permissions in requested_permissions_dict.values():
+                                        if dangerous in permissions:
+                                            for group, permissions in over_requested.items():
+                                                # TODO: remove key (group) here
+                                                if dangerous in permissions:
+                                                    groups_to_remove.add(group)
+
+            # Now remove those groups from requested groups
+            for group in groups_to_remove:
+                over_requested.pop(group)
 
         # Now print results to analysis file
         with open(self.analysis_report_filename, "w+") as analysis:
             print(" Analysis Report ".center(50,'-'), file=analysis)
             print("{}".format("Package: " + self.package_name), file=analysis)
+
+            print(" Requested Dangerous Permissions ".center(50,'-'), file=analysis)
+            for group, permissions in requested_permissions_dict.items():
+                for permission in permissions:
+                    print(group + ": " + permission, file=analysis)
 
             print(" Normal Permissions ".center(50,'-'), file=analysis)
             print("{}".format("Count: " + str(len(normal_permissions))), file=analysis)
@@ -94,9 +114,13 @@ class Report:
             for permission in dangerous_permissions:
                 print(permission, file=analysis)
 
-            print(" Unrequested Dangerous Permissions ".center(50,'-'), file=analysis)
-            for not_requested in potentially_not_requested_lines:
+            print(" Unrequested Dangerous (Under) ".center(50,'-'), file=analysis)
+            for permission in not_requested_source_lines:
                 # TODO: print the permission as well
                 # TODO: detect for commenting
-                print(not_requested, file=analysis)
+                print(permission, file=analysis)
+
+            print(" Requested Dangerous (Over) ".center(50,'-'), file=analysis)
+            for requested in over_requested.values():
+                print(requested, file=analysis)
         print("Analysis printed! Location: " + self.analysis_report_filename)
