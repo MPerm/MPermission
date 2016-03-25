@@ -76,7 +76,7 @@ class Report:
                     for dangerous_list in permission.dangerous_permissions.values():
                         for dangerous in dangerous_list:
                             if dangerous in line:
-                                dangerous_permissions.add(perm + ": " + line)
+                                dangerous_permissions.add(dangerous + ": " + line)
 
                                 # Possible not requested in Manifest
                                 if dangerous not in requested_permissions:
