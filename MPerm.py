@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-__author__ = 'piper'
+"""
+MPerm: Base driver for the analysis tool.
+"""
 
 import sys
 import subprocess
 import xml.etree.ElementTree as ET
 
 from Harvest import Harvest
-from Permissions import Permissions
 from Report import Report
 
 def get_manifest_tree(project_root):
     """Parses AndroidManifest into XML tree."""
-    manifest = android_manifest = project_root + "/app/AndroidManifest.xml"
+    manifest = project_root + "/app/AndroidManifest.xml"
     tree = ET.parse(manifest)
     return tree
 
@@ -52,16 +53,9 @@ def decompile(apk_path):
     left within the same directory.
     """
     subprocess.call(["./android-scraper/tools/apk-decompiler/apk_decompiler.sh", apk_path])
+    # TODO: move decompiled project to sample_apks/
     # subprocess.call(["mv", "android-scraper/tools/apk-decompiler/com.*", "sample_apks/"], shell=True)
     print("Decompilation finished!")
-
-def read_config(config_file):
-    """Takes a configuration file to decide which permissions to analyze."""
-    with open(config_file) as config:
-        for line in config:
-            ignored.append(line)
-    return ignored
-
 
 def main():
     """Primary driver of MPermission. """
@@ -77,9 +71,6 @@ def main():
             package_name = get_package_name(manifest_tree)
             permissions = get_all_permissions(manifest_tree)
             third_party_permissions = get_third_party_permissions(manifest_tree)
-
-            # Create the proper report_filename
-            report_filename = "report_" + package_name + ".txt"
 
             # Scrape the source
             harvest = Harvest(source_path, package_name, permissions)

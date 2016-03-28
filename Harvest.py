@@ -1,7 +1,9 @@
+"""
+Harvest: collections permisisons within source project.
+"""
+
 import fnmatch
 import os
-
-from Report import Report
 
 class Harvest:
     """Harvest object that scrapes project source looking for permissions matches."""
@@ -21,6 +23,7 @@ class Harvest:
         search_string = "permission"
         source_root = self.project_root + "/app/src/"
         matches = []
+
         # Search for matching java files
         for root, dirnames, filenames in os.walk(source_root):
             for filename in fnmatch.filter(filenames, "*.java"):
@@ -39,15 +42,17 @@ class Harvest:
 
         # Print the source report
         with open(self.report_file_name, "w+") as report:
-            print(" Source Report ".center(50,'-'),file=report)
+            print(" Source Report ".center(50, '-'), file=report)
             print("{}".format("Package: " + self.package_name), file=report)
             print(file=report)
 
             print(" Permissions Found in Files ".center(50, '-'), file=report)
-            [print(line,file=report) for line in self.source_files]
+            for line in self.source_files:
+                print(line, file=report)
             print(file=report)
 
             print(" Occurrences in Source ".center(50, '-'), file=report)
-            [print(line, file=report) for line in self.lines]
+            for line in self.lines:
+                print(line, file=report)
         print("Source report printed! Location: " + self.report_file_name)
         return self.report_file_name
