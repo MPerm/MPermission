@@ -76,11 +76,8 @@ def main():
             harvest = Harvest(source_path, package_name, permissions)
             source_report = harvest.search_project_root()
 
-            # Print report
+            # Analyze and print results
             report = Report(package_name, permissions, third_party_permissions)
-            report.print_report()
-
-            # Run analysis
             report.print_analysis(permissions, source_report)
 
         elif '-d' in arguments:

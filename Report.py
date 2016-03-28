@@ -14,35 +14,6 @@ class Report:
         self.report_filename = "reports/report_" + package_name + ".txt"
         self.analysis_report_filename = "reports/analysis_" + package_name + ".txt"
 
-    def print_report(self):
-        """Prints permissions analysis report to report_name."""
-        with open(self.report_filename, "w+") as report:
-            print(" Android Permissions Report ".center(50, '-'), file=report)
-            print("{}".format("Package: " + self.package_name), file=report)
-
-            print(" Permissions from Manifest ".center(50, '-'), file=report)
-            for index, non_system_permission in enumerate(self.permissions):
-                print('{:>4} {}'.format(index, non_system_permission), file=report)
-            print(file=report)
-
-            print(" Third Party Permissions ".center(50, '-'), file=report)
-            for permission in self.third_party_permissions:
-                print(permission, file=report)
-            print(file=report)
-
-            print(" Dangerous Permission Groups from Manifest ".center(50, '-'), file=report)
-            permission = Permissions()
-            for permission_group, permission_list in permission.dangerous_permissions.items():
-                # Bucket system permission to appropriate permission_group
-                print(permission_group.capitalize() + " Group:", file=report)
-                for permission in self.permissions:
-                    permission = permission.rsplit('.', 1)[-1]
-                    if permission in permission_list:
-                        print('{} '.format(permission), file=report)
-                print(file=report)
-
-        print("Report printed! Location: " + self.report_filename)
-
     def print_analysis(self, requested_permissions, source_file):
         """Diffs the requested permissions against occurrences in source."""
 
@@ -103,27 +74,45 @@ class Report:
         with open(self.analysis_report_filename, "w+") as analysis:
             print(" Analysis Report ".center(50, '-'), file=analysis)
             print("{}".format("Package: " + self.package_name), file=analysis)
+            print(file=analysis)
+
+            print(" Permissions from Manifest ".center(50, '-'), file=analysis)
+            for index, non_system_permission in enumerate(self.permissions):
+                print('{:>4} {}'.format(index, non_system_permission), file=analysis)
+            print(file=analysis)
+
+            print(" Third Party Permissions ".center(50, '-'), file=analysis)
+            for index, permission in enumerate(self.third_party_permissions):
+                print('{:>4} {}'.format(index, permission), file=analysis)
+            print(file=analysis)
 
             print(" Requested Dangerous Permissions ".center(50, '-'), file=analysis)
             for group, permissions in requested_permissions_dict.items():
                 for permission in permissions:
                     print(group + ": " + permission, file=analysis)
+            print(file=analysis)
 
-            print(" Normal Permissions ".center(50, '-'), file=analysis)
-            print("{}".format("Count: " + str(len(normal_permissions))), file=analysis)
-            for permission in normal_permissions:
-                print(permission, file=analysis)
+            # Commenting for now; unlikely to be used
+            # print(" Normal Permissions ".center(50, '-'), file=analysis)
+            # print("{}".format("Count: " + str(len(normal_permissions))), file=analysis)
+            # for permission in normal_permissions:
+            #     print(permission, file=analysis)
+            # print(file=analysis)
 
             print(" Dangerous Permissions ".center(50, '-'), file=analysis)
-            print("{}".format("Count: " + str(len(dangerous_permissions))), file=analysis)
+            print("{}".format("Total found: " + str(len(dangerous_permissions))), file=analysis)
+            print(file=analysis)
             for permission in dangerous_permissions:
                 print(permission, file=analysis)
+            print(file=analysis)
 
             print(" Unrequested Dangerous (Under) ".center(50, '-'), file=analysis)
             for permission in not_requested_source_lines:
                 print(permission, file=analysis)
+            print(file=analysis)
 
             print(" Requested Dangerous (Over) ".center(50, '-'), file=analysis)
             for requested in over_requested.values():
                 print(requested, file=analysis)
+            print(file=analysis)
         print("Analysis printed! Location: " + self.analysis_report_filename)
