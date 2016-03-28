@@ -1,4 +1,6 @@
 .DS_Store
+reports/
+sample_apks/
 #### joe made this: https://goel.io/joe
 
 #####=== Python ===#####
@@ -57,4 +59,3 @@ docs/_build/
 
 # PyBuilder
 target/
-
