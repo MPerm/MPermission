@@ -6,7 +6,7 @@ class Permissions:
         self.dangerous_permissions = dict({
             "calendar": ['READ_CALENDAR',
                         'WRITE_CALENDAR'],
-            "camera":	['CONTACTS', 'CAMERA'],
+            "camera":	['CAMERA'],
             "contacts":	['READ_CONTACTS', 'WRITE_CONTACTS', 'GET_ACCOUNTS'],
             "location": ['ACCESS_FINE_LOCATION', 'ACCESS_COARSE_LOCATION'],
             "microphone": ['RECORD_AUDIO'],
