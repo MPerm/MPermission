@@ -3,6 +3,7 @@
 MPerm: Base driver for the analysis tool.
 """
 
+import shutil
 import sys
 import subprocess
 import xml.etree.ElementTree as ET
@@ -52,10 +53,19 @@ def decompile(apk_path):
     Only decompile the provided APK. The decompiled APK will be
     left within the same directory.
     """
+    apk_name = apk_path.rsplit('/', 1)[-1]
+
+    print("Decompiling " + apk_name)
     subprocess.call(["./android-scraper/tools/apk-decompiler/apk_decompiler.sh", apk_path])
-    # TODO: move decompiled project to sample_apks/
-    # subprocess.call(["mv", "android-scraper/tools/apk-decompiler/com.*", "sample_apks/"], shell=True)
     print("Decompilation finished!")
+    print("Moving " + apk_name + " to sample_apks/...")
+    try:
+        shutil.move("android-scraper/tools/apk-decompiler/" + apk_name +
+                    ".uncompressed", "sample_apks/" + apk_name + ".uncompressed")
+        print("Move finished! Check sample_apks/ for the decompiled app.")
+    except FileNotFoundError:
+        print("Error: couldn't find "
+              + apk_name + ".It might already be in sample_apks/")
 
 def main():
     """Primary driver of MPermission. """
