@@ -3,8 +3,8 @@
 MPerm: Base driver for the analysis tool.
 """
 
+import argparse
 import shutil
-import sys
 import subprocess
 import xml.etree.ElementTree as ET
 
@@ -69,29 +69,37 @@ def decompile(apk_path):
 
 def main():
     """Primary driver of MPermission. """
-    arguments = sys.argv
-    source_path = ""
-    if len(arguments) < 3:
-        print("Error: missing arguments. ")
-        exit(1)
-    elif len(arguments) >= 3 and len(arguments) < 5:
-        source_path = arguments[1]
-        if '-h' in arguments:
-            manifest_tree = get_manifest_tree(source_path)
-            package_name = get_package_name(manifest_tree)
-            permissions = get_all_permissions(manifest_tree)
-            third_party_permissions = get_third_party_permissions(manifest_tree)
 
-            # Scrape the source
-            harvest = Harvest(source_path, package_name, permissions)
-            source_report = harvest.search_project_root()
+    # TODO: dectect for Android M
 
-            # Analyze and print results
-            report = Report(package_name, permissions, third_party_permissions)
-            report.print_analysis(permissions, source_report)
+    parser = argparse.ArgumentParser(description='Performs static analysis on decompiled Android M app permissions.')
+    parser.add_argument('apk', metavar='APK', nargs=1,
+                        help='required APK to decompile or root app to harvest from')
+    parser.add_argument('--decompile', '-d', nargs='?',
+                        help='decompiles the provided APK')
+    parser.add_argument('--analyze', '-a', nargs='?',
+                       help='analyzes the provided deompiled APK')
+    args = parser.parse_args()
 
-        elif '-d' in arguments:
-            decompile(source_path)
+    if args.decompile:
+        decompile(args.apk[0])  # decompile the provided APK
+    elif args.analyze:
+        # Get permissions and manifest
+        source_path = args.apk[0]
+        manifest_tree = get_manifest_tree(source_path)
+        package_name = get_package_name(manifest_tree)
+        permissions = get_all_permissions(manifest_tree)
+        third_party_permissions = get_third_party_permissions(manifest_tree)
+
+        # Scrape the source
+        harvest = Harvest(source_path, package_name, permissions)
+        source_report = harvest.search_project_root()
+
+        # Analyze and print results
+        report = Report(package_name, permissions, third_party_permissions)
+        report.print_analysis(permissions, source_report)
+    else:
+        print("error")
 
 if __name__ == "__main__":
     main()
