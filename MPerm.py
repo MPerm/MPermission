@@ -6,6 +6,7 @@ MPerm: Base driver for the analysis tool.
 import argparse
 import shutil
 import subprocess
+import sys
 import xml.etree.ElementTree as ET
 
 from Harvest import Harvest
@@ -16,6 +17,26 @@ def get_manifest_tree(project_root):
     manifest = project_root + "/app/AndroidManifest.xml"
     tree = ET.parse(manifest)
     return tree
+
+def validate_minimum_sdk(manifest_tree):
+    """MPerm will only test Android 6.0 or greater apps."""
+    root = manifest_tree.getroot()
+    namespace = '{http://schemas.android.com/apk/res/android}'
+    sdks = {
+        'min': namespace + 'minSdkVersion',
+        'target': namespace + 'targetSdkVersion',
+        'max': namespace + 'maxSdkVersion'
+    }
+
+    for sdk_version in root.findall('uses-sdk'):
+        max_sdk_version = -1
+        try:
+            max_sdk_version = int(sdk_version.attrib[sdks['max']])
+        except KeyError:
+            print("Warning: maxSdkVersion wasn't defined in Manifest;\
+ app may not be compatible with Android M.")
+        if max_sdk_version > -1 and max_sdk_version < 7:
+            sys.exit("Error: SDK version is less than 6.0: app is not compatible with Android M.")
 
 def get_package_name(manifest_tree):
     """Analyze manifest to see package name of app."""
@@ -70,8 +91,6 @@ def decompile(apk_path):
 def main():
     """Primary driver of MPermission. """
 
-    # TODO: dectect for Android M
-
     parser = argparse.ArgumentParser(description='Performs static analysis on\
      decompiled Android M app permissions.')
     parser.add_argument('apk', metavar='APK', nargs=1,
@@ -85,9 +104,12 @@ def main():
     if args.decompile:
         decompile(args.apk[0])  # decompile the provided APK
     elif args.analyze:
-        # Get permissions and manifest
+        # Parse manifest and validate API
         source_path = args.apk[0]
         manifest_tree = get_manifest_tree(source_path)
+        validate_minimum_sdk(manifest_tree)
+
+        # Collect permissions
         package_name = get_package_name(manifest_tree)
         permissions = get_all_permissions(manifest_tree)
         third_party_permissions = get_third_party_permissions(manifest_tree)
@@ -100,7 +122,7 @@ def main():
         report = Report(package_name, permissions, third_party_permissions)
         report.print_analysis(permissions, source_report)
     else:
-        parser.print_help()
+        parser.print_help
 
 if __name__ == "__main__":
     main()
