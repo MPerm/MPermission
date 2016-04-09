@@ -72,13 +72,14 @@ def main():
 
     # TODO: dectect for Android M
 
-    parser = argparse.ArgumentParser(description='Performs static analysis on decompiled Android M app permissions.')
+    parser = argparse.ArgumentParser(description='Performs static analysis on\
+     decompiled Android M app permissions.')
     parser.add_argument('apk', metavar='APK', nargs=1,
                         help='required APK to decompile or root app to harvest from')
-    parser.add_argument('--decompile', '-d', nargs='?',
+    parser.add_argument('--decompile', '-d', action='store_true',
                         help='decompiles the provided APK')
-    parser.add_argument('--analyze', '-a', nargs='?',
-                       help='analyzes the provided deompiled APK')
+    parser.add_argument('--analyze', '-a', action='store_true',
+                        help='analyzes the provided deompiled APK')
     args = parser.parse_args()
 
     if args.decompile:
@@ -99,7 +100,7 @@ def main():
         report = Report(package_name, permissions, third_party_permissions)
         report.print_analysis(permissions, source_report)
     else:
-        print("error")
+        parser.print_help()
 
 if __name__ == "__main__":
     main()
