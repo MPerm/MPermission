@@ -92,13 +92,6 @@ class Report:
                     print(group + ": " + permission, file=analysis)
             print(file=analysis)
 
-            # Commenting for now; unlikely to be used
-            # print(" Normal Permissions ".center(50, '-'), file=analysis)
-            # print("{}".format("Count: " + str(len(normal_permissions))), file=analysis)
-            # for permission in normal_permissions:
-            #     print(permission, file=analysis)
-            # print(file=analysis)
-
             print(" Dangerous Permissions ".center(50, '-'), file=analysis)
             print("{}".format("Total found: " + str(len(dangerous_permissions))), file=analysis)
             print(file=analysis)
