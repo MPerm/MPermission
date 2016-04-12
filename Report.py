@@ -1,6 +1,6 @@
 """
 Report: Writes an analysis text file of the various over/under priviliged
-        permissions found during harvesting.
+        permissions found during analysis.
 """
 from Permissions import Permissions
 

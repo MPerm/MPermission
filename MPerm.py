@@ -9,7 +9,7 @@ import subprocess
 import sys
 import xml.etree.ElementTree as ET
 
-from Harvest import Harvest
+from Analyze import Analyze
 from Report import Report
 
 def get_manifest_tree(project_root):
@@ -94,7 +94,7 @@ def main():
     parser = argparse.ArgumentParser(description='Performs static analysis on\
      decompiled Android M app permissions.')
     parser.add_argument('apk', metavar='APK', nargs=1,
-                        help='required APK to decompile or root app to harvest from')
+                        help='required APK to decompile or root app to analyze')
     parser.add_argument('--decompile', '-d', action='store_true',
                         help='decompiles the provided APK')
     parser.add_argument('--analyze', '-a', action='store_true',
@@ -115,8 +115,8 @@ def main():
         third_party_permissions = get_third_party_permissions(manifest_tree)
 
         # Scrape the source
-        harvest = Harvest(source_path, package_name, permissions)
-        source_report = harvest.search_project_root()
+        analyzer = Analyze(source_path, package_name, permissions)
+        source_report = analyzer.search_project_root()
 
         # Analyze and print results
         report = Report(package_name, permissions, third_party_permissions)

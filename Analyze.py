@@ -1,15 +1,15 @@
 """
-Harvest: collections permisisons within source project.
+Analyze: collections permisisons within source project.
 """
 
 import fnmatch
 import os
 
-class Harvest:
-    """Harvest object that scrapes project source looking for permissions matches."""
+class Analyze:
+    """Analyze object that scrapes project source looking for permissions matches."""
 
     def __init__(self, project_root, package_name, permissions):
-        """Init method of Harvest."""
+        """Init method of Analyze."""
         self.project_root = project_root
         self.package_name = package_name
         self.permissions = permissions
@@ -19,7 +19,7 @@ class Harvest:
 
     def search_project_root(self):
         """Looks in the source root for matching files with permissions."""
-        print("Harvesting from project root....")
+        print("Analyzing from project root....")
         search_string = "permission"
         source_root = self.project_root + "/app/src/"
         matches = []
@@ -38,7 +38,7 @@ class Harvest:
                             self.lines.append(('{} {:>4}\n'.format("\nFile: ", current_file)))
                             self.source_files.append(current_file)
                         self.lines.append(('{:>4} {}'.format(index, line.rstrip())))
-        print("Harvesting finished!")
+        print("Analyzing finished!")
 
         # Print the source report
         with open(self.report_file_name, "w+") as report:
