@@ -67,7 +67,7 @@ To determine what permisisons are used in the source the tool will search for co
 * `requestPermissions()` - requests permissions to be used 
 * `checkSelfPermission()` - determines whether the user has been granted this permission
 
-### Usage
+### Setup
 MPermission requires Python 3.0 - 3.4. 
 
 MPermission uses pre-written decompilation scripts from the kocsenc/android-scraper project. The project is referenced via a [submodule](3). After cloning the project, it can be installed via:
@@ -77,7 +77,16 @@ MPermission uses pre-written decompilation scripts from the kocsenc/android-scra
 % git submodule update
 ```
 
-For Android decompilation instructions, refer to [the README](4) within the submodule.
+After cloning and updating the submodule, run  
+
+```bash
+% python3 android-scraper/tools/apk-decompiler/setupDependencies.py
+```
+This will install dex2jar and apktools for the android-scraper. For further Android decompilation instructions, refer to [the README](4) within the submodule.
+
+You should now be ready to decompile and analyze some Android M apps.
+
+### Usage  
 
 The tool can be run incrementally with the following flags:
 
