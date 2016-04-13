@@ -4,6 +4,7 @@ MPerm: Base driver for the analysis tool.
 """
 
 import argparse
+import os
 import shutil
 import subprocess
 import sys
@@ -104,6 +105,10 @@ def main():
     if args.decompile:
         decompile(args.apk[0])  # decompile the provided APK
     elif args.analyze:
+        # Create reports directory if it doesn't exist
+        if not os.path.exists('./reports'):
+            os.mkdir('./reports')
+
         # Parse manifest and validate API
         source_path = args.apk[0]
         manifest_tree = get_manifest_tree(source_path)
