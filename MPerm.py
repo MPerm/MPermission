@@ -110,7 +110,7 @@ def main():
         print("Looking in root for a config.txt...")
         ignore = {
             'groups': set(),
-            'permissions': set()
+            'individual': set()
         }
         try:
             with open("./config.txt") as config:
@@ -125,7 +125,7 @@ def main():
                         elif line != '\n':
                             # specific permissions
                             sanitized = line.rstrip()
-                            ignore['permissions'].add(sanitized)
+                            ignore['individual'].add(sanitized)
             print("Config found. Analysis will ignore the stated permissions.")
 
         except FileNotFoundError:
@@ -146,7 +146,7 @@ def main():
         third_party_permissions = get_third_party_permissions(manifest_tree)
 
         # Scrape the source
-        analyzer = Analyze(source_path, package_name, permissions)
+        analyzer = Analyze(source_path, package_name, permissions, ignore)
         source_report = analyzer.search_project_root()
 
         # Analyze and print results
