@@ -106,13 +106,27 @@ def main():
         decompile(args.apk[0])  # decompile the provided APK
     elif args.analyze:
 
-        # Look for configuration file in the directory
+        # config.txt is used to ignore certain permissions
         print("Looking in root for a config.txt...")
-        configuration = []
+        ignore = {
+            'groups': set(),
+            'permissions': set()
+        }
         try:
             with open("./config.txt") as config:
-                for line in config:
-                    configuration.append(line)
+                for index, line in enumerate(config):
+
+                    # ignore commented lines
+                    if not line.startswith("//"):
+                        if line.startswith("#"):
+                            # groups -- remove '# ' and add to set
+                            sanitized = line[2:].rstrip()
+                            ignore['groups'].add(sanitized)
+                        elif line != '\n':
+                            # specific permissions
+                            sanitized = line.rstrip()
+                            ignore['permissions'].add(sanitized)
+            print("Config found. Analysis will ignore the stated permissions.")
 
         except FileNotFoundError:
             print("Couldn't find a config.txt. Proceeding with analysis")
