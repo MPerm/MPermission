@@ -57,7 +57,7 @@ def get_third_party_permissions(manifest_tree):
                 third_party.add(perm)
     return third_party
 
-def get_all_permissions(manifest_tree):
+def get_requested_permissions(manifest_tree):
     """Analyze manifest to see what permissions to request."""
     root = manifest_tree.getroot()
     permissions = set()
@@ -116,7 +116,7 @@ def main():
 
         # Collect permissions
         package_name = get_package_name(manifest_tree)
-        permissions = get_all_permissions(manifest_tree)
+        permissions = get_requested_permissions(manifest_tree)
         third_party_permissions = get_third_party_permissions(manifest_tree)
 
         # Scrape the source
