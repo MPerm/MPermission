@@ -105,6 +105,18 @@ def main():
     if args.decompile:
         decompile(args.apk[0])  # decompile the provided APK
     elif args.analyze:
+
+        # Look for configuration file in the directory
+        print("Looking in root for a config.txt...")
+        configuration = []
+        try:
+            with open("./config.txt") as config:
+                for line in config:
+                    configuration.append(line)
+
+        except FileNotFoundError:
+            print("Couldn't find a config.txt. Proceeding with analysis")
+
         # Create reports directory if it doesn't exist
         if not os.path.exists('./reports'):
             os.mkdir('./reports')
