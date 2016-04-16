@@ -57,7 +57,7 @@ def get_third_party_permissions(manifest_tree):
                 third_party.add(perm)
     return third_party
 
-def get_all_permissions(manifest_tree):
+def get_requested_permissions(manifest_tree):
     """Analyze manifest to see what permissions to request."""
     root = manifest_tree.getroot()
     permissions = set()
@@ -105,6 +105,32 @@ def main():
     if args.decompile:
         decompile(args.apk[0])  # decompile the provided APK
     elif args.analyze:
+
+        # config.txt is used to ignore certain permissions
+        print("Looking in root for a config.txt...")
+        ignore = {
+            'groups': set(),
+            'individual': set()
+        }
+        try:
+            with open("./config.txt") as config:
+                for index, line in enumerate(config):
+
+                    # ignore commented lines
+                    if not line.startswith("//"):
+                        if line.startswith("#"):
+                            # groups -- remove '# ' and add to set
+                            sanitized = line[2:].rstrip()
+                            ignore['groups'].add(sanitized)
+                        elif line != '\n':
+                            # specific permissions
+                            sanitized = line.rstrip()
+                            ignore['individual'].add(sanitized)
+            print("Config found. Analysis will ignore the stated permissions.")
+
+        except FileNotFoundError:
+            print("Couldn't find a config.txt. Proceeding with analysis")
+
         # Create reports directory if it doesn't exist
         if not os.path.exists('./reports'):
             os.mkdir('./reports')
@@ -116,11 +142,11 @@ def main():
 
         # Collect permissions
         package_name = get_package_name(manifest_tree)
-        permissions = get_all_permissions(manifest_tree)
+        permissions = get_requested_permissions(manifest_tree)
         third_party_permissions = get_third_party_permissions(manifest_tree)
 
         # Scrape the source
-        analyzer = Analyze(source_path, package_name, permissions)
+        analyzer = Analyze(source_path, package_name, permissions, ignore)
         source_report = analyzer.search_project_root()
 
         # Analyze and print results
