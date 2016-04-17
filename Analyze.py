@@ -64,7 +64,7 @@ class Analyze:
                                 current_file = java_file.name
                                 self.lines.append(('{} {:>4}\n'.format("\nFile: ", current_file)))
                                 self.source_files.append(current_file)
-                            self.lines.append(('{:>4} {}'.format(index, line.rstrip())))
+                            self.lines.append(('{}'.format(line.rstrip())))
         print("Analyzing finished!")
 
         # Print the source report

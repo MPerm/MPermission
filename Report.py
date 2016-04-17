@@ -43,6 +43,10 @@ class Report:
             for line in source:
                 if "android.permission." in line:
 
+                    # Skip line if it's commented
+                    if line.lstrip().startswith("//"):
+                        continue
+
                     # Check each line for normal permissions
                     for normal in permission.normal_permissions:
                         if normal in line:
