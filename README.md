@@ -66,6 +66,8 @@ The tool can synchrnously execute over several .apks.
 To determine what permisisons are used in the source the tool will search for commonly used functions to acquire permissions. Some of these include  
 * `requestPermissions()` - requests permissions to be used 
 * `checkSelfPermission()` - determines whether the user has been granted this permission
+* `<uses-permission>` is when the application is seeking the user's permission to use some feature
+* `<permission>` is when the application is requiring other apps to seek the user's permission to use a custom feature of the app These are the developer's own permissions.
 
 ### Setup
 MPermission requires Python 3.0 - 3.4. 
