@@ -77,12 +77,18 @@ MPermission uses pre-written decompilation scripts from the kocsenc/android-scra
 % git submodule update
 ```
 
+
 After cloning and updating the submodule, run  
 
 ```bash
 % python3 android-scraper/tools/apk-decompiler/setupDependencies.py
 ```
 This will install dex2jar and apktools for the android-scraper. For further Android decompilation instructions, refer to [the README](4) within the submodule.
+
+Now install any package dependencies:  
+```bash
+% pip install -r requirements.txt
+```
 
 You should now be ready to decompile and analyze some Android M apps.
 
