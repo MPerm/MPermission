@@ -29,7 +29,7 @@ The tool will have 4 stages of execution:
 3. Searching source files for usage of each permission
 4. Writing results of usage to SQLite database
 
-The tool can synchrnously execute over several .apks.
+The tool can synchronously execute over several .apks.
 
 #### Analysis
 To determine what permisisons are used in the source the tool will search for commonly used functions to acquire permissions. Some of these include  
