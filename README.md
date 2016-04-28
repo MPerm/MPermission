@@ -1,14 +1,16 @@
 ## Android M Permissions Analysis
-Tool to analyze Android M permissions.
+Tool to statically analyze permission references within decompiled Android M apps.
 
 ### Context
-With the release of Android 6.0 (Android M / API Level 23), the method by which system and 3rd party permissions are granted have changed. Now users grant permissions at runtime instead of during installation.   
+With the release of Android 6.0 (Android M / API Level 23), users can now grant system and 3rd party permissions at runtime instead of during installation.
 
-This can result in an increase in susceptibility to over and underprivileging for Android M app users. For example, if a normal (as opposed to [dangerous][1]) permission is listed in the app manifest, the system grants that permission automatically -- even if the app is not using the permission directly. Users can grant all permissions within a group by requiring a single permission. This may result in overprivileging. For convenience, design and further documentation is [in the wiki][5].
+This increases an application's susceptibility to over and underprivileging. If a normal (as opposed to [dangerous][1]) permission is defined in the app manifest, the system grants that permission automatically -- even if the app is not using the permission directly. However, users can grant all permissions, including dangerous, within a permission group by requiring a single permission. This may result in overprivileging. For convenience, design and further documentation is [in the wiki][5].
 
 #### Rules to Keep in Mind
 1. If an app requests a **normal** permission it will be granted immediately. [View the list of normal permissions here](http://developer.android.com/guide/topics/security/normal-permissions.html).
 2. If an app requests a **dangerous** permission listed in its manifest, and the app already has another dangerous permission in the same permission group, the system immediately grants the permission without any interaction with the user.
+3. Permissions defined in the manifest and never referenced in source are considered **overprivileged**.
+4. Permissions not defined in the manifest, and refereneced in the source, are considered **underprivileged**. 
 
 ### Setup
 MPermission requires Python 3.0 - 3.4. 
@@ -19,7 +21,6 @@ MPermission uses pre-written decompilation scripts from the kocsenc/android-scra
 % git submodule init
 % git submodule update
 ```
-
 
 After cloning and updating the submodule, run  
 
@@ -49,4 +50,3 @@ The tool can be run incrementally with the following flags:
 [3]: https://git-scm.com/book/en/v2/Git-Tools-Submodules
 [4]: https://github.com/kocsenc/android-scraper/tree/master/tools/apk-decompiler/
 [5]: https://github.com/dan7800/MPermission/wiki
-
