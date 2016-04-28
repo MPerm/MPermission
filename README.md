@@ -4,38 +4,7 @@ Tool to analyze Android M permissions.
 ### Context
 With the release of Android 6.0 (Android M / API Level 23), the method by which system and 3rd party permissions are granted have changed. Now users grant permissions at runtime instead of during installation.   
 
-This can result in an increase in susceptibility to over and underprivileging for Android M app users. For example, if a normal (as opposed to [dangerous][1]) permission is listed in the app manifest, the system grants that permission automatically -- even if the app is not using the permission directly.
-
-Dangerous system permissions are divided into nine groups:
-
-| Permission Group   | Description                        | Permissions    | 
-|--------------------|------------------------------------|----------------|  
-| Calendar           | Managing calendars                 | READ_CALENDAR  |
-|                    |                                    | WRITE_CALENDAR |
-| Camera             | Taking photos and recording videos | CAMERA         |
-| Contacts           | Managing contacts                  | READ_CONTACTS  |
-|                    |                                    | WRITE_CONTACTS |
-|                    |                                    | GET_ACCOUNTS   |
-| Location           | Current device location            | ACCESS_FINE_LOCATION               |
-|                    |                                    | ACCESS_COARSE_LOCATION               |
-| Microphone         | Audio recording                    | RECORD_AUDIO               |
-| Phone              | Dialing and managing phone calls   | READ_PHONE_STATE            |
-|                    |                                    | CALL_PHONE               |
-|                    |                                    | READ_CALL_LOG               |
-|                    |                                    | WRITE_CALL_LOG               |
-|                    |                                    | ADD_VOICEMAIL               |
-|                    |                                    | USE_SIP               |
-|                    |                                    | PROCESS_OUTGOING_CALLS               |
-| Sensors            | Heart rate and similar data        | BODY_SENSORS            |
-| SMS                | Sending and viewing messages       | SEND_SMS               |
-|                    |                                    | RECEIVE_SMS               |
-|                    |                                    | READ_SMS               |
-|                    |                                    | RECEIVE_WAP_PUSH               |
-|                    |                                    | RECEIVE_MMS               |
-| Storage            | Accessing photos, media, and files | READ_EXTERNAL_STORAGE               |
-|                    |                                    | WRITE_EXTERNAL_STORAGE               |
-
-Users can grant all permissions within a group by requiring a single action -- which may result in overprivileging.
+This can result in an increase in susceptibility to over and underprivileging for Android M app users. For example, if a normal (as opposed to [dangerous][1]) permission is listed in the app manifest, the system grants that permission automatically -- even if the app is not using the permission directly. Users can grant all permissions within a group by requiring a single permission. This may result in overprivileging. For convenience, groups and further information is [in the wiki][5].
 
 #### Rules to Keep in Mind
 1. If an app requests a **normal** permission it will be granted immediately. [View the list of normal permissions here](http://developer.android.com/guide/topics/security/normal-permissions.html).
@@ -124,4 +93,5 @@ BSD
 [2]: https://www.wikiwand.com/en/Android_application_package
 [3]: https://git-scm.com/book/en/v2/Git-Tools-Submodules
 [4]: https://github.com/kocsenc/android-scraper/tree/master/tools/apk-decompiler/
+[5]: https://github.com/dan7800/MPermission/wiki
 
