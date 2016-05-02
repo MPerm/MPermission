@@ -44,16 +44,17 @@ class Analyze:
             for permission in self.ignore['individual']:
                 print("Ignoring: " + permission)
 
-        # Search for matching java files
+        # Identify all source files from the project root.
         for root, dirnames, filenames in os.walk(source_root):
             for filename in fnmatch.filter(filenames, "*.java"):
                 matches.append(os.path.join(root, filename))
+
+        # Now scrape each file looking for permission matches.
         for file in matches:
             current_file = ""
             with open(file) as java_file:
-                for index, line in enumerate(java_file):
+                for line in java_file:
                     if "permission" in line:
-
                         # Ignore the line if it has an ignored permission,
                         # otherwise add the line to the source_lines list
                         for ignored_permission in self.ignore['individual']:
