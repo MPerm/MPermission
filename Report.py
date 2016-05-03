@@ -67,7 +67,7 @@ class Report:
                                     not_requested_source_lines.add(line)
                                 else:
                                     # At this point, we've encountered a dangerous
-                                    # permission that hasn't been requested.
+                                    # permission that's been requested.
                                     # But, the remaining perms from the group may have been requested.
                                     for req_perm_group in requested_dangerous_permissions.values():
                                         if dangerous in req_perm_group:
