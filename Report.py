@@ -14,26 +14,28 @@ class Report:
         self.report_filename = "reports/report_" + package_name + ".txt"
         self.analysis_report_filename = "reports/analysis_" + package_name + ".txt"
 
-    def print_analysis(self, requested_permissions, source_file):
+    def print_analysis(self, manifest_requested_permissions, source_file):
         """Diffs the requested permissions against occurrences in source."""
 
-        # Get permissions object
-        permission = Permissions()
+        # Add requested normal permissions to total
+        total_requested_permissions = set()
+        for perm in manifest_requested_permissions:
+            total_requested_permissions.add(perm.rsplit('.', 1)[-1])
 
-        permissions = set()
-        for perm in requested_permissions:
-            permissions.add(perm.rsplit('.', 1)[-1])
-
-        requested_permissions_dict = permission.get_dangerous_permission_group(permissions)
-        requested_permissions = set()
-        for requested_perm_group in requested_permissions_dict.values():
+        # Now add the requested dangerous permissions, based on what
+        # permissions from groups have already been added.
+        # For example, if READ_CONTACTS was requested in manifest, then add the remaining CONTACTS group.
+        requested_dangerous_permissions = Permissions().get_dangerous_permission_group(total_requested_permissions)
+        rp = set()
+        for requested_perm_group in requested_dangerous_permissions.values():
             for requested in requested_perm_group:
-                requested_permissions.add(requested)
+                rp.add(requested)
 
-        over_requested = requested_permissions_dict.copy()
+        over_requested = requested_dangerous_permissions.copy()
 
-        normal_permissions = set()
-        dangerous_permissions = set()
+        normal_permission_occurrences = set()
+        dangerous_permission_occurrences = set()
+
         groups_to_remove = set()
         not_requested_files = set()
         not_requested_source_lines = set()
@@ -42,30 +44,33 @@ class Report:
         with open(source_file) as source:
             for line in source:
                 if "android.permission." in line:
-
                     # Skip line if it's commented
                     if line.lstrip().startswith("//"):
                         continue
 
-                    # Check each line for normal permissions
-                    for normal in permission.normal_permissions:
+                    # Check each normal permission to see if it's in line
+                    for normal in Permissions().normal_permissions:
                         if normal in line:
-                            normal_permissions.add(normal + ": " + line)
+                            normal_permission_occurrences.add(normal + ": " + line)
 
                     # Check each line to see if dangerous permission may exist
-                    for dangerous_list in permission.dangerous_permissions.values():
-                        for dangerous in dangerous_list:
+                    for d_perm_group in Permissions().dangerous_permissions.values():
+                        for dangerous in d_perm_group:
+                            # Dangerous permission was found in line.
                             if dangerous in line:
-                                dangerous_permissions.add(dangerous + ": " + line)
+                                dangerous_permission_occurrences.add(dangerous + ": " + line)
 
-                                # Possible not requested in Manifest
-                                if dangerous not in requested_permissions:
+                                # Possible not requested in Manifest. This is what we're
+                                # using for underprivilege.
+                                if dangerous not in rp:
                                     not_requested_files.add(source_file)
                                     not_requested_source_lines.add(line)
                                 else:
-                                    # Check for the group
-                                    for permissions in requested_permissions_dict.values():
-                                        if dangerous in permissions:
+                                    # At this point, we've encountered a dangerous
+                                    # permission that hasn't been requested.
+                                    # But, the remaining perms from the group may have been requested.
+                                    for req_perm_group in requested_dangerous_permissions.values():
+                                        if dangerous in req_perm_group:
                                             for group, permissions in over_requested.items():
                                                 if dangerous in permissions:
                                                     groups_to_remove.add(group)
@@ -90,16 +95,16 @@ class Report:
                 print('{:>4} {}'.format(index, permission), file=analysis)
             print(file=analysis)
 
-            print(" Requested Dangerous Permissions ".center(50, '-'), file=analysis)
-            for group, permissions in requested_permissions_dict.items():
+            print(" Requested Dangerous Permission Groups ".center(50, '-'), file=analysis)
+            for group, permissions in requested_dangerous_permissions.items():
                 for permission in permissions:
                     print(group + ": " + permission, file=analysis)
             print(file=analysis)
 
-            print(" Dangerous Permissions ".center(50, '-'), file=analysis)
-            print("{}".format("Total found: " + str(len(dangerous_permissions))), file=analysis)
+            print(" Dangerous Permission Occurrences ".center(50, '-'), file=analysis)
+            print("{}".format("Total found: " + str(len(dangerous_permission_occurrences))), file=analysis)
             print(file=analysis)
-            for permission in dangerous_permissions:
+            for permission in dangerous_permission_occurrences:
                 print(permission, file=analysis)
             print(file=analysis)
 
