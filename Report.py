@@ -86,18 +86,18 @@ class Report:
             print(file=analysis)
 
             print(" Permissions from Manifest ".center(50, '-'), file=analysis)
-            for index, non_system_permission in enumerate(self.permissions):
+            for index, non_system_permission in enumerate(sorted(self.permissions)):
                 print('{:>4} {}'.format(index, non_system_permission), file=analysis)
             print(file=analysis)
 
             print(" Third Party Permissions ".center(50, '-'), file=analysis)
-            for index, permission in enumerate(self.third_party_permissions):
+            for index, permission in enumerate(sorted(self.third_party_permissions)):
                 print('{:>4} {}'.format(index, permission), file=analysis)
             print(file=analysis)
 
             print(" Requested Dangerous Permission Groups ".center(50, '-'), file=analysis)
             for group, permissions in requested_dangerous_permissions.items():
-                for permission in permissions:
+                for permission in sorted(permissions):
                     print(group + ": " + permission, file=analysis)
             print(file=analysis)
 
