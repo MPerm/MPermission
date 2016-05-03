@@ -21,22 +21,12 @@ class Report:
         total_requested_permissions = set()
         for perm in manifest_requested_permissions:
             total_requested_permissions.add(perm.rsplit('.', 1)[-1])
-
-        # Now add the requested dangerous permissions, based on what
-        # permissions from groups have already been added.
-        # For example, if READ_CONTACTS was requested in manifest, then add the remaining CONTACTS group.
         requested_dangerous_permissions = Permissions().get_dangerous_permission_group(total_requested_permissions)
-        rp = set()
-        for requested_perm_group in requested_dangerous_permissions.values():
-            for requested in requested_perm_group:
-                rp.add(requested)
 
-        over_requested = requested_dangerous_permissions.copy()
-
+        over_requested = manifest_requested_permissions.copy()
         normal_permission_occurrences = set()
         dangerous_permission_occurrences = set()
 
-        groups_to_remove = set()
         not_requested_files = set()
         not_requested_source_lines = set()
 
@@ -47,6 +37,12 @@ class Report:
                     # Skip line if it's commented
                     if line.lstrip().startswith("//"):
                         continue
+
+                    # If permission defined in manifest, then remove from over_requested
+                    for permission in over_requested:
+                        if permission in line:
+                            over_requested.remove(permission)
+                            break
 
                     # Check each normal permission to see if it's in line
                     for normal in Permissions().normal_permissions:
@@ -60,24 +56,10 @@ class Report:
                             if dangerous in line:
                                 dangerous_permission_occurrences.add(dangerous + ": " + line)
 
-                                # Possible not requested in Manifest. This is what we're
-                                # using for underprivilege.
-                                if dangerous not in rp:
+                                # Occurrence, but not requested in manifest (unverprivilege)
+                                if dangerous not in over_requested:
                                     not_requested_files.add(source_file)
                                     not_requested_source_lines.add(line)
-                                else:
-                                    # At this point, we've encountered a dangerous
-                                    # permission that's been requested.
-                                    # But, the remaining perms from the group may have been requested.
-                                    for req_perm_group in requested_dangerous_permissions.values():
-                                        if dangerous in req_perm_group:
-                                            for group, permissions in over_requested.items():
-                                                if dangerous in permissions:
-                                                    groups_to_remove.add(group)
-
-            # Now remove those groups from requested groups
-            for group in groups_to_remove:
-                over_requested.pop(group)
 
         # Now print results to analysis file
         with open(self.analysis_report_filename, "w+") as analysis:
@@ -113,8 +95,8 @@ class Report:
                 print(permission, file=analysis)
             print(file=analysis)
 
-            print(" Requested Dangerous (Over) ".center(50, '-'), file=analysis)
-            for requested in over_requested.values():
-                print(requested, file=analysis)
+            print(" Requested but Not Found (Possible Overprivilege) ".center(50, '-'), file=analysis)
+            for index, requested in enumerate(sorted(over_requested)):
+                print('{:>4} {}'.format(index, requested), file=analysis)
             print(file=analysis)
         print("Analysis printed! Location: " + self.analysis_report_filename)
