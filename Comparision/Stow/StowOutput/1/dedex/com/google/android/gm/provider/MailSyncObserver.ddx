@@ -1,0 +1,12 @@
+.interface public abstract com/google/android/gm/provider/MailSyncObserver
+.super java/lang/Object
+.source MailSyncObserver.java
+
+
+.method public abstract onMessageReceived()V
+.end method
+
+.method public abstract onOperationReceived()V
+.end method
+
+
