@@ -27,7 +27,7 @@ After cloning and updating the submodule, run
 ```bash
 % python3 android-scraper/tools/apk-decompiler/setupDependencies.py
 ```
-This will install dex2jar and apktools for the android-scraper. For further Android decompilation instructions, refer to [the README](4) within the submodule.
+This will install dex2jar and apktools for the android-scraper. 
 
 Now install any package dependencies:  
 ```bash
