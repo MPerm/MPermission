@@ -15,7 +15,7 @@ This increases an application's susceptibility to over and underprivileging. If 
 ### Setup
 MPermission requires Python 3.0 - 3.4. 
 
-MPermission uses pre-written decompilation scripts from the kocsenc/android-scraper project. The project is referenced via a [submodule](3). After cloning the project, it can be installed via:
+MPermission uses pre-written decompilation scripts from the kocsenc/android-scraper project. After cloning the project, it can be installed via:
 
 ```bash
 % git submodule init
