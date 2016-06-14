@@ -51,7 +51,7 @@ In the event of any issues, there are some things you can try.
 
 **If the app wont't de-compile:** 	
 
-1. Make sure to have the latest versions of [APKTool][6], [DEX2Jar][7] and [JD-GUI][8]. 
+1. Make sure to have the latest versions of [APKTool][6], [DEX2Jar][7] and [Procyon][8]. 
 2. Make sure the apps being examined are API 23 (Marshmallow) or greater.
 3. If you continue to encounter problebms, use the provided Virtual Machine.
 
@@ -64,5 +64,5 @@ In the event of any issues, there are some things you can try.
 [5]: https://github.com/dan7800/MPermission/wiki
 [6]: http://ibotpeaches.github.io/Apktool/
 [7]: https://sourceforge.net/projects/dex2jar/files/
-[8]: http://jd.benow.ca
+[8]: https://bitbucket.org/mstrobel/procyon/wiki/Java%20Decompiler
 
