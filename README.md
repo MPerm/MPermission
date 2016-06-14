@@ -49,7 +49,7 @@ The tool can be run incrementally with the following flags:
 #### Troubleshooting
 In the event of any issues, there are some things you can try.
 
-If the app wont't de-compile: 	
+**If the app wont't de-compile:** 	
 
 1. Make sure to have the latest versions of [APKTool][6], [DEX2Jar][7] and [JD-GUI][8]. 
 2. Make sure the apps being examined are API 23 (Marshmallow) or greater.
