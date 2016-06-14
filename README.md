@@ -41,8 +41,8 @@ You should now be ready to decompile and analyze some Android M apps.
 The tool can be run incrementally with the following flags:
 
 ```bash
-% python3 mperm.py -d [--decompile] apk_path              # decompiles APK and moves it to sample_apk/
-% python3 mperm.py -a [--analyze]   decompiled_apk_path   # analyze and prints source report / analysis report
+% python3 MPerm.py -d [--decompile] apk_path              # decompiles APK and moves it to sample_apk/
+% python3 MPerm.py -a [--analyze]   decompiled_apk_path   # analyze and prints source report / analysis report
 ```
 
 
