@@ -8,6 +8,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 import xml.etree.ElementTree as ET
 
 from Analyze import Analyze
@@ -103,7 +104,11 @@ def main():
     args = parser.parse_args()
 
     if args.decompile:
+        start = time.time()
         decompile(args.apk[0])  # decompile the provided APK
+        end = time.time()
+        totalTime = end - start
+        print ("Time to decompile: %.2f seconds" %totalTime)
     elif args.analyze:
 
         # config.txt is used to ignore certain permissions
