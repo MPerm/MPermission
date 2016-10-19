@@ -85,10 +85,18 @@ class Report:
                 print('{:>4} {}'.format(index, non_system_permission), file=analysis)
             print(file=analysis)
 
+
+            # Create permissions file to be used for MySQL data
+            file = open("thirdpartyInfo.txt","w")
+            
+
             print(" Third Party Permissions ".center(50, '-'), file=analysis)
             for index, permission in enumerate(self.third_party_permissions):
+                file.write(permission + "\n")
                 print('{:>4} {}'.format(index, permission), file=analysis)
             print(file=analysis)
+            
+            file.close()
 
             print(" Requested Dangerous Permissions ".center(50, '-'), file=analysis)
             for group, permissions in requested_permissions_dict.items():
@@ -103,13 +111,36 @@ class Report:
                 print(permission, file=analysis)
             print(file=analysis)
 
+
+            # Create permissions file to be used for MySQL data
+            file = open("underInfo.txt","w")
+
             print(" Unrequested Dangerous (Under) ".center(50, '-'), file=analysis)
             for permission in not_requested_source_lines:
+                str1 = str(not_requested_source_lines).replace("{'  public static final String[] ALL_PERMISSIONS_SAMPLES = { ","")
+                str2 = str1.replace(" };\\"+"n'}", "")
+                str3 = str2.replace("\"", "")
+                str4 = str3.replace(" ", "")
+                strarr = str4.split(',')
+                for perm in strarr:
+                    file.write(perm + "\n")
                 print(permission, file=analysis)
             print(file=analysis)
 
+            file.close()
+
+
+            # Create permissions file to be used for MySQL data
+            file = open("overInfo.txt","w")
+
             print(" Requested Dangerous (Over) ".center(50, '-'), file=analysis)
             for requested in over_requested.values():
+                for index in requested:
+                    perm = "android.permission." + str(index)
+                    file.write(perm + "\n")
                 print(requested, file=analysis)
             print(file=analysis)
+
+            file.close()
+
         print("Analysis printed! Location: " + self.analysis_report_filename)

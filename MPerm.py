@@ -212,7 +212,7 @@ def main():
             # Add new entry
             else:
                 print("Creating new data entry in MySQL table")
-                cursor.execute("INSERT INTO appinfo (name, size, apkname, packagename, version, daterun, decompiletime) VALUES (\'" + package_name + "\', \'" + byte + " bytes\', \'" + apkname + "\', \'" + packagename + "\', \'" + version + "\', \'" + daterun + "\', \'" + decomptime + " seconds\');")
+                cursor.execute("INSERT INTO appinfo (appid, name, size, apkname, packagename, version, daterun, decompiletime) VALUES (uuid(), \'" + package_name + "\', \'" + byte + " bytes\', \'" + apkname + "\', \'" + packagename + "\', \'" + version + "\', \'" + daterun + "\', \'" + decomptime + " seconds\');")
                 cnx.commit()
 
         except mysql.connector.Error as err:
@@ -226,9 +226,9 @@ def main():
             cnx.close()
 
         # Collect permissions
-        package_name = get_package_name(manifest_tree)
-        permissions = get_requested_permissions(manifest_tree)
-        third_party_permissions = get_third_party_permissions(manifest_tree)
+        #package_name = get_package_name(manifest_tree)
+        #permissions = get_requested_permissions(manifest_tree)
+        #third_party_permissions = get_third_party_permissions(manifest_tree)
 
         # Scrape the source
         analyzer = Analyze(source_path, package_name, permissions, ignore)
