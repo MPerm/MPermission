@@ -4,6 +4,8 @@ MPerm: Base driver for the analysis tool.
 """
 
 import argparse
+import datetime
+import mysql.connector
 import os
 import shutil
 import subprocess
@@ -72,23 +74,47 @@ def get_requested_permissions(manifest_tree):
 
 
 def decompile(apk_path):
+
+    start = time.time()
+
     """
     Only decompile the provided APK. The decompiled APK will be
     left within the same directory.
     """
+    file = open("decompileInfo.txt","w")
+
     apk_name = apk_path.rsplit('/', 1)[-1]
+
+    file.write("File size:\n")
+    file.write(str(os.path.getsize(apk_path)))
+    file.write("\nAPK name:\n")
+    file.write(apk_name)
+    
 
     print("Decompiling " + apk_name)
     subprocess.call(["./android-scraper/tools/apk-decompiler/apk_decompiler.sh", apk_path])
     print("Decompilation finished!")
+
+    file.write("\nDate run:\n")
+    file.write(str(datetime.datetime.now()))
+
+    end = time.time()
+    totalTime = end - start
+    file.write("\nTime to decompile:\n")
+    file.write("{0:.2f}".format(totalTime))
+
+    file.close()
+
     print("Moving " + apk_name + " to sample_apks/...")
     try:
         shutil.move("android-scraper/tools/apk-decompiler/" + apk_name +
                     ".uncompressed", "sample_apks/" + apk_name + ".uncompressed")
+        shutil.move("decompileInfo.txt", "sample_apks/" + apk_name + ".uncompressed")
         print("Move finished! Check sample_apks/ for the decompiled app.")
     except FileNotFoundError:
         print("Error: couldn't find "
               + apk_name + ".It might already be in sample_apks/")
+
 
 def main():
     """Primary driver of MPermission. """
@@ -144,6 +170,60 @@ def main():
         source_path = args.apk[0]
         manifest_tree = get_manifest_tree(source_path)
         validate_minimum_sdk(manifest_tree)
+
+        # Setup MySQL connection
+        try:
+            cnx = mysql.connector.connect(host='localhost', user='', database='mpermdb')
+            cursor = cnx.cursor()
+
+            # Collect permissions
+            package_name = get_package_name(manifest_tree)
+            permissions = get_requested_permissions(manifest_tree)
+            third_party_permissions = get_third_party_permissions(manifest_tree)
+
+            cursor.execute("SELECT * FROM appinfo WHERE name = \'%s\';" %package_name)
+
+            result = cursor.fetchall()
+
+            with open(source_path + "decompileInfo.txt") as fp:
+                for i, line in enumerate(fp):
+                    if i == 1:
+                        byte = line.rstrip()
+                    elif i == 3:
+                        apkname = line.rstrip()
+                    elif i == 5:
+                        daterun = line.rstrip()
+                    elif i == 7:
+                        decomptime = line.rstrip()
+                    elif i > 7:
+                        break
+
+
+            # Placeholders for now
+            packagename = package_name
+            version = "0"
+            
+            # Overwrite existing data
+            if len(result) > 0:
+                print("Updating existing data entry in MySQL table")
+                cursor.execute("UPDATE appinfo SET size=\'" + byte + " bytes\', apkname=\'" + apkname + "\', packagename=\'" + packagename + "\', version=\'" + version + "\', daterun=\'" + daterun + "\', decompiletime=\'" + decomptime + " seconds\' WHERE name=\'" + package_name + "\';")
+                cnx.commit()
+            
+            # Add new entry
+            else:
+                print("Creating new data entry in MySQL table")
+                cursor.execute("INSERT INTO appinfo (name, size, apkname, packagename, version, daterun, decompiletime) VALUES (\'" + package_name + "\', \'" + byte + " bytes\', \'" + apkname + "\', \'" + packagename + "\', \'" + version + "\', \'" + daterun + "\', \'" + decomptime + " seconds\');")
+                cnx.commit()
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cnx.close()
 
         # Collect permissions
         package_name = get_package_name(manifest_tree)
