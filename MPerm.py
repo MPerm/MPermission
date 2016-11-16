@@ -100,7 +100,11 @@ def main():
                         help='decompiles the provided APK')
     parser.add_argument('--analyze', '-a', action='store_true',
                         help='analyzes the provided deompiled APK')
+    parser.add_argument('--apilevel', '-l', action='store_true',
+                        help='specifies the API level you want to analyze against')
     args = parser.parse_args()
+
+    print("Arguments: " + args.echo)
 
     if args.decompile:
         decompile(args.apk[0])  # decompile the provided APK
@@ -137,6 +141,11 @@ def main():
 
         # Parse manifest and validate API
         source_path = args.apk[0]
+
+        api = ""
+        if args.apilevel:
+            api = args.apk[1]  # The specified API level
+
         manifest_tree = get_manifest_tree(source_path)
         validate_minimum_sdk(manifest_tree)
 
@@ -146,7 +155,7 @@ def main():
         third_party_permissions = get_third_party_permissions(manifest_tree)
 
         # Scrape the source
-        analyzer = Analyze(source_path, package_name, permissions, ignore)
+        analyzer = Analyze(source_path, package_name, permissions, ignore, str(api))
         source_report = analyzer.search_project_root()
 
         # Analyze and print results
