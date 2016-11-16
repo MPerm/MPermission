@@ -5,12 +5,13 @@ Analyze: collections permisisons within source project.
 import fnmatch
 import os
 
-from Permissions import Permissions
+#from Permissions import Permissions
+
 
 class Analyze:
     """Analyze object that scrapes project source looking for permissions matches."""
 
-    def __init__(self, project_root, package_name, permissions, ignore):
+    def __init__(self, project_root, package_name, permissions, ignore, api):
         """Init method of Analyze."""
         self.project_root = project_root
         self.package_name = package_name
@@ -19,6 +20,7 @@ class Analyze:
         self.source_files = []
         self.lines = []
         self.ignore = ignore
+        self.api = api
 
     def search_project_root(self):
         """Looks in the source root for matching files with permissions."""
@@ -27,8 +29,16 @@ class Analyze:
         source_root = self.project_root + "/app/src/"
         matches = []
 
+        if self.api == "":
+            self.api = "23"
+
+        module = __import__("PermissionsAPI" + self.api)
+        my_class = getattr(module, "PermissionsAPI" + self.api)
+        instance = my_class()
+
         # Add any ignored group permissions to the set of individual perms
-        dangerous_permissions = Permissions().dangerous_permissions
+        #dangerous_permissions = Permissions().dangerous_permissions
+        dangerous_permissions = instance.dangerous_permissions
         if len(self.ignore['groups']) > 0:
             for group in self.ignore['groups']:
 
