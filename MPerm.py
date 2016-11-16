@@ -100,11 +100,16 @@ def main():
                         help='decompiles the provided APK')
     parser.add_argument('--analyze', '-a', action='store_true',
                         help='analyzes the provided deompiled APK')
+    
+    parser.add_argument('api', metavar='API', nargs='+',
+                        help='required API level to analyze against')
+
     parser.add_argument('--apilevel', '-l', action='store_true',
                         help='specifies the API level you want to analyze against')
+    
     args = parser.parse_args()
 
-    print("Arguments: " + args.echo)
+    #print("Arguments: " + args.echo())
 
     if args.decompile:
         decompile(args.apk[0])  # decompile the provided APK
@@ -144,7 +149,7 @@ def main():
 
         api = ""
         if args.apilevel:
-            api = args.apk[1]  # The specified API level
+            api = args.api[0]  # The specified API level
 
         manifest_tree = get_manifest_tree(source_path)
         validate_minimum_sdk(manifest_tree)
