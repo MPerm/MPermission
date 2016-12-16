@@ -1,7 +1,0 @@
-
-/home/mperm/Desktop/allapks/linkedin.apk > 0 seconds.
-/home/mperm/Desktop/allapks/yelp.apk > 0 seconds.
-/home/mperm/Desktop/allapks/vlc.apk > 25 seconds.
-/home/mperm/Desktop/allapks/amazon.apk > 8 seconds.
-/home/mperm/Desktop/allapks/uber.apk > 56 seconds.
-/home/mperm/Desktop/allapks/bnreader.apk > 40 seconds.
