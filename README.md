@@ -12,22 +12,21 @@ This increases an application's susceptibility to over and underprivileging. If 
 3. Permissions defined in the manifest and never referenced in source are considered **overprivileged**.
 4. Permissions not defined in the manifest, and refereneced in the source, are considered **underprivileged**. 
 
-### Setup
+### Setup and Updating Tools
 MPermission requires Python 3.0 - 3.4. 
 
-MPermission uses pre-written decompilation scripts from the kocsenc/android-scraper project. After cloning the project, it can be installed via:
+You may also need to update Apktool, dex2jar, and JD-Core-java.
 
+Download the latest version of [Apktool][6], rename the jar file to 'apktool.jar', and then place it in android-scraper/tools/apk-decompiler/lib/
+
+Download the latest version of [dex2jar][7], unzip the contents and rename the folder to 'dex2jar', and then place it in android-scraper/tools/apk-decompiler/lib/
+
+[JD-Core-java][8] requires [Oracle JDK][9] and [Mercurial][10] to build:
 ```bash
-% git submodule init
-% git submodule update
+% apt-get install mercurial
 ```
-
-After cloning and updating the submodule, run  
-
-```bash
-% python3 android-scraper/tools/apk-decompiler/setupDependencies.py
-```
-This will install dex2jar and apktools for the android-scraper. 
+Follow the build instructions for JD-Core-java to generate a jar file (project can be found on the VM desktop). Rename the file to 'jd-core-java.jar' and then place it in android-scraper/tools/apk-decompiler/lib/
+ 
 
 Now install any package dependencies:  
 ```bash
@@ -40,9 +39,11 @@ You should now be ready to decompile and analyze some Android M apps.
 
 The tool can be run incrementally with the following flags:
 
+
 ```bash
 % python3 MPerm.py -d [--decompile] apk_path              # decompiles APK and moves it to sample_apk/ - This could take a few minutes depending on the size of the APK
-% python3 MPerm.py -a [--analyze]   decompiled_apk_path   # analyze and prints source report / analysis report
+% python3 MPerm.py -a [--analyze]   decompiled_apk_path [android_api_version_number_targeted]   # analyze and prints source report / analysis report
+% python3 MPerm.py -f [--fullprocess]   _apk_path [android_api_version_number_targeted]   # decompiles APK, analyzes and prints source report / analysis report, then deletes the decompiled source folder
 ```
 
 
@@ -51,7 +52,7 @@ In the event of any issues, there are some things you can try.
 
 **If the app wont't de-compile:** 	
 
-1. Make sure to have the latest versions of [APKTool][6], [DEX2Jar][7] and [Procyon][8]. 
+1. Make sure to have the latest versions of [Apktool][6], [dex2jar][7] and [JD-Core-java][8]. 
 2. Make sure the apps being examined are API 23 (Marshmallow) or greater.
 3. If you continue to encounter problebms, use the provided Virtual Machine.
 
@@ -64,5 +65,6 @@ In the event of any issues, there are some things you can try.
 [5]: https://github.com/dan7800/MPermission/wiki
 [6]: http://ibotpeaches.github.io/Apktool/
 [7]: https://sourceforge.net/projects/dex2jar/files/
-[8]: https://bitbucket.org/mstrobel/procyon/wiki/Java%20Decompiler
-
+[8]: https://github.com/nviennot/jd-core-java
+[9]: http://www.oracle.com/technetwork/pt/java/javase/downloads/index.html
+[10]: https://www.mercurial-scm.org/

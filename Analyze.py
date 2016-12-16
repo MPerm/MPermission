@@ -32,7 +32,14 @@ class Analyze:
         if self.api == "":
             self.api = "23"
 
-        module = __import__("PermissionsAPI" + self.api)
+        try:
+            module = __import__("PermissionsAPI" + self.api)
+        except ImportError:
+            print("Could not find \'PermissionsAPI" + self.api + ".py\' for your specified API level")
+            print("Attempting to run against the default API level 23")
+            self.api = "23"
+            module = __import__("PermissionsAPI23")
+
         my_class = getattr(module, "PermissionsAPI" + self.api)
         instance = my_class()
 

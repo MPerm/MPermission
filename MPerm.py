@@ -89,32 +89,105 @@ def decompile(apk_path):
         print("Error: couldn't find "
               + apk_name + ".It might already be in sample_apks/")
 
+def analyze(source_path, api):
+
+    # config.txt is used to ignore certain permissions
+    print("Looking in root for a config.txt...")
+    ignore = {
+        'groups': set(),
+        'individual': set()
+    }
+    try:
+        with open("./config.txt") as config:
+            for index, line in enumerate(config):
+
+                # ignore commented lines
+                if not line.startswith("//"):
+                    if line.startswith("#"):
+                        # groups -- remove '# ' and add to set
+                        sanitized = line[2:].rstrip()
+                        ignore['groups'].add(sanitized)
+                    elif line != '\n':
+                        # specific permissions
+                        sanitized = line.rstrip()
+                        ignore['individual'].add(sanitized)
+        print("Config found. Analysis will ignore the stated permissions.")
+
+    except FileNotFoundError:
+        print("Couldn't find a config.txt. Proceeding with analysis")
+
+    # Create reports directory if it doesn't exist
+    if not os.path.exists('./reports'):
+        os.mkdir('./reports')
+
+    # Parse manifest and validate API
+    manifest_tree = get_manifest_tree(source_path)
+    validate_minimum_sdk(manifest_tree)
+
+    # Collect permissions
+    package_name = get_package_name(manifest_tree)
+    permissions = get_requested_permissions(manifest_tree)
+    third_party_permissions = get_third_party_permissions(manifest_tree)
+
+    # Scrape the source
+    analyzer = Analyze(source_path, package_name, permissions, ignore, str(api))
+    source_report = analyzer.search_project_root()
+
+    # Analyze and print results
+    report = Report(package_name, permissions, third_party_permissions)
+    report.print_analysis(permissions, source_report)
+
+
+
 def main():
     """Primary driver of MPermission. """
 
     parser = argparse.ArgumentParser(description='Performs static analysis on\
      decompiled Android M app permissions.')
-    parser.add_argument('apk', metavar='APK', nargs=1,
-                        help='required APK to decompile or root app to analyze')
+    parser.add_argument('apk', metavar='APK', nargs='+',
+                        help='required APK to decompile or root app to analyze, followed by the API level you would like to analyze against')
     parser.add_argument('--decompile', '-d', action='store_true',
                         help='decompiles the provided APK')
     parser.add_argument('--analyze', '-a', action='store_true',
-                        help='analyzes the provided deompiled APK')
-    
-    parser.add_argument('api', metavar='API', nargs='+',
-                        help='required API level to analyze against')
-
-    parser.add_argument('--apilevel', '-l', action='store_true',
-                        help='specifies the API level you want to analyze against')
+                        help='analyzes the provided deompiled APK against a specified API level')
+    parser.add_argument('--fullprocess', '-f', action='store_true',
+                        help='decompiles the provided APK, analyzes the decompiled APK against a specified API level, then deletes the decompiled APK')
     
     args = parser.parse_args()
 
-    #print("Arguments: " + args.echo())
 
     if args.decompile:
         decompile(args.apk[0])  # decompile the provided APK
+
     elif args.analyze:
 
+        source_path = args.apk[0]  # analyze the decompiled APK
+
+        try:
+            APILevel = args.apk[1]  # The specified API level
+        except IndexError:
+            APILevel = 23  # Default to API 23 if not specified
+
+        analyze(source_path, APILevel)
+
+    elif args.fullprocess:
+
+        decompile(args.apk[0])  # decompile the provided APK
+
+        apk_name = args.apk[0].rsplit('/', 1)[-1]
+        source_path = "sample_apks/" + apk_name + ".uncompressed/"
+
+        try:
+            APILevel = args.apk[1]  # The specified API level
+        except IndexError:
+            APILevel = 23  # Default to API 23 if not specified
+
+        analyze(source_path, APILevel)
+
+        shutil.rmtree(source_path)
+
+
+        """
         # config.txt is used to ignore certain permissions
         print("Looking in root for a config.txt...")
         ignore = {
@@ -147,9 +220,10 @@ def main():
         # Parse manifest and validate API
         source_path = args.apk[0]
 
-        api = ""
-        if args.apilevel:
-            api = args.api[0]  # The specified API level
+        try:
+            api = args.apk[1]  # The specified API level
+        except IndexError:
+            api = 23
 
         manifest_tree = get_manifest_tree(source_path)
         validate_minimum_sdk(manifest_tree)
@@ -166,6 +240,7 @@ def main():
         # Analyze and print results
         report = Report(package_name, permissions, third_party_permissions)
         report.print_analysis(permissions, source_report)
+    """
     else:
         parser.print_help
 
