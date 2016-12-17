@@ -42,8 +42,8 @@ The tool can be run incrementally with the following flags:
 
 ```bash
 % python3 MPerm.py -d [--decompile] apk_path              # decompiles APK and moves it to sample_apk/ - This could take a few minutes depending on the size of the APK
-% python3 MPerm.py -a [--analyze]   decompiled_apk_path [android_api_version_number_targeted]   # analyze and prints source report / analysis report
-% python3 MPerm.py -f [--fullprocess]   _apk_path [android_api_version_number_targeted]   # decompiles APK, analyzes and prints source report / analysis report, then deletes the decompiled source folder
+% python3 MPerm.py -a [--analyze]   decompiled_apk_path [android_api_version_number_targeted]   # analyze and prints source report / analysis report against the specified API level number
+% python3 MPerm.py -f [--fullprocess]   _apk_path [android_api_version_number_targeted]   # decompiles APK, analyzes against the specified API level number and prints source report / analysis report, then deletes the decompiled source folder
 ```
 
 
