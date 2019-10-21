@@ -74,6 +74,6 @@ uritemplate==0.6
 urllib3==1.11
 uuid==1.30
 vboxapi==1.0
-Werkzeug==0.10.4
+Werkzeug==0.15.3
 xattr==0.6.4
 zope.interface==4.1.1
