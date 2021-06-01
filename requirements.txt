@@ -71,7 +71,7 @@ simplejson==3.8.0
 six==1.4.1
 twilio==5.2.0
 uritemplate==0.6
-urllib3==1.11
+urllib3==1.26.5
 uuid==1.30
 vboxapi==1.0
 Werkzeug==0.10.4
